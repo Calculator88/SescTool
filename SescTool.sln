@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SescTool", "SescTool\SescTool.csproj", "{FDD89FEE-DB32-4DCE-8E23-D23F1EDF33C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SescTool.Tests", "SescTool.Tests\SescTool.Tests.csproj", "{65B37521-2510-4B3C-860D-DF3EC4BF1E98}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,8 +19,15 @@ Global
 		{FDD89FEE-DB32-4DCE-8E23-D23F1EDF33C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FDD89FEE-DB32-4DCE-8E23-D23F1EDF33C8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FDD89FEE-DB32-4DCE-8E23-D23F1EDF33C8}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{65B37521-2510-4B3C-860D-DF3EC4BF1E98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65B37521-2510-4B3C-860D-DF3EC4BF1E98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65B37521-2510-4B3C-860D-DF3EC4BF1E98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65B37521-2510-4B3C-860D-DF3EC4BF1E98}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {172DFC6C-9D8D-4C4C-9240-727845792854}
 	EndGlobalSection
 EndGlobal

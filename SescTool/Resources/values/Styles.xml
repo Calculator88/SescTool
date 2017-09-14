@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<resources>
+  <style name="MyTheme" parent="MyTheme.Base">
+  </style>
+  <style name="MyTheme.Base" parent="Theme.AppCompat.Light">
+    <item name="windowNoTitle">true</item>
+    <item name="titleTextColor">#ffffff</item>
+    <item name="windowActionModeOverlay">true</item>
+    <item name="android:statusBarColor">@android:color/transparent</item>
+    <item name="windowActionBar">false</item>
+    <item name="colorPrimary">@color/Primary</item>
+    <item name="colorPrimaryDark">@color/PrimaryDark</item>
+    <item name="colorAccent">@color/Accent</item>
+  </style>
+  <style name="datepickerdialog" parent="Theme.AppCompat.Light.Dialog">
+    <item name="colorPrimary">@color/Primary</item>
+    <item name="colorPrimaryDark">@color/PrimaryDark</item>
+    <item name="colorAccent">@color/Accent</item>
+  </style>
+  <style name="MyTheme.Splash" parent="Theme.AppCompat.Light.NoActionBar">
+    <item name="android:windowTranslucentStatus">true</item>
+    <item name="android:windowBackground">@drawable/splash_background</item>
+  </style>
+</resources>

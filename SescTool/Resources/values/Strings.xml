@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="Hello">Hello World, Click Me!</string>
-    <string name="ApplicationName">SescTool</string>
+  <string name="open">Opened</string>
+  <string name="close">Closed</string>
+  <string name="app_name">Sesc Tool</string>
+  <string name="nav_class_schedule">Расписание для класса</string>
+  <string name="nav_techer_schedule">Расписание для учителя</string>
+  <string name="nav_classroom_timetable">Расписание для аудитории</string>
+  <string name="classPicker_choose">Выбрать</string>
+  <string name="classPicker_close">Закрыть</string>
+  <string name="error_occured">Произошла ошибка</string>
+  <string name="loading">Загрузка</string>
+  <string name="loaded_fine">Загружено</string>
+  <string name="nav_settings">Настройки</string>
+  <string name="choose_class">Выбeрите класс</string>
+  <string name="nav_timetable">Расписание</string>
+  <string-array name="nav_toolbar_titles">
+    <item>Расписание для класса</item>
+    <item>Расписание для учителя</item>
+    <item>Расписание для аудитории</item>
+  </string-array>
 </resources>

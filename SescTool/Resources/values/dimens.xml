@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+  <dimen name="class_schedule_min_row_height">30dp</dimen>
+  <dimen name="classPicker_header_leftright_padding">20dp</dimen>
+  <dimen name="classPicker_header_topbottom_padding">10dp</dimen>
+  <dimen name="classPicker_header_classes_padding">5dp</dimen>
+  <dimen name="classPicker_header_classes_textSize">16pt</dimen>
+  <dimen name="classPicker_circle_out_diameter">220dp</dimen>
+  <dimen name="classPicker_circle_in_diamener">180dp</dimen>
+  <dimen name="classPicker_body_to_circle_padding">20dp</dimen>
+  <dimen name="classPicker_circle_item_diameter">20dp</dimen>
+  <dimen name="classPicker_circle_item_padding">5dp</dimen>
+</resources>

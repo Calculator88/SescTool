@@ -1,5 +1,32 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="SescTool.SescTool" android:versionCode="1" android:versionName="1.0">
-  <uses-sdk android:minSdkVersion="16" />
-  <application android:label="SescTool"></application>
+﻿<manifest
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  package="com.sesc.timetable"
+  android:versionCode="1"
+  android:versionName="1.1"
+  android:installLocation="auto">
+  <uses-sdk android:minSdkVersion="15" />
+  <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+  <application
+    android:largeHeap="true"
+    android:label="@string/app_name"
+    android:theme="@style/MyTheme"
+    android:icon="@drawable/icon">
+    <activity
+      android:name="sesctool.SplashActivity"
+      android:theme="@style/MyTheme.Splash"
+      android:noHistory="true">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+    </activity>
+    <activity
+      android:name="sesctool.MainActivity"
+      android:label="@string/nav_timetable"
+      android:launchMode="singleTop"
+      android:theme="@style/MyTheme"
+      android:configChanges="orientation|screenSize">
+    </activity>
+  </application>
 </manifest>

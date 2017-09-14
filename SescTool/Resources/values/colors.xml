@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+  <item name="Primary" type="color">#3f51b5</item>
+  <item name="PrimaryDark" type="color">#303f9f</item>
+  <item name="Accent" type="color">#ff4081</item>
+  <item name="FragmentFillerBackground" type="color">#cccdce</item>
+  <item name="FragmentFillerTextColor" type="color">#8d9196</item>
+  <item name="classPicker_title_class_inactive_color" type="color">#aae2e2e2</item>
+  <item name="classPicker_title_class_active_color" type="color">#ffffffff</item>
+  <item name="classPicker_body_background" type="color">#ffffffff</item>
+  <item name="classPicker_circle_background" type="color">#aab5b5b5</item>
+  <item name="classPicker_circle_item_background_color" type="color">#00000000</item>
+</resources>
