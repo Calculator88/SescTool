@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Android.OS;
 using Android.Support.V7.App;
 using Android.Views;
@@ -16,12 +18,14 @@ namespace SescTool.Fragments
         private Button _selectButton;
         private string _selectedClass;
         private string _selectedLiter;
+        private readonly string _startValue;
         private readonly IOnClassChooseListener _listener;
 
-        public ClassPickerDialogFragment(Dictionary<string, List<string>> data, IOnClassChooseListener listener)
+        public ClassPickerDialogFragment(Dictionary<string, List<string>> data, IOnClassChooseListener listener, string startValue = null)
         {
             _data = data;
             _listener = listener;
+            _startValue = startValue;
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -40,6 +44,19 @@ namespace SescTool.Fragments
             _selectButton.SetOnClickListener(this);
 
             InvalidateData();
+            if (String.IsNullOrEmpty(_startValue)) return view;
+
+            var regex = new Regex("(\\d+)(\\w+)", RegexOptions.Compiled);
+            var match = regex.Match(_startValue);
+            var number = match.Groups[1].ToString();
+            var liter = match.Groups[2].ToString();
+            var numberAt = _data.Keys.ToList().IndexOf(number);
+            var literAt = _data[number].IndexOf(liter);
+            _classPicker.Value = numberAt;
+            InvalidateLiters(numberAt);
+            _literPicker.Value = literAt;
+            _selectedLiter = liter;
+
             return view;
         }
         public void OnClick(View v)
@@ -54,7 +71,6 @@ namespace SescTool.Fragments
                     Dismiss();
                     break;
             }
-            
         }
 
         public interface IOnClassChooseListener

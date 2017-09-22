@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Android.App;
 using Android.Content;
+using Android.Graphics.Drawables;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+using Apmem;
 using SescTool.Model;
 
 namespace SescTool.Helpers
@@ -125,10 +127,29 @@ namespace SescTool.Helpers
             private readonly TextView _textViewClassroom1;
             private readonly TextView _textViewSubject2;
             private readonly TextView _textViewClassroom2;
+            private readonly FlowLayout _firstLes;
+            private readonly FlowLayout _secondLes;
+
             private Lesson _lesson;
+
+            private Drawable GetRippleBackground()
+            {
+                var attrs = new[] { Android.Resource.Attribute.SelectableItemBackground };
+                var ta = _firstLes.Context.ObtainStyledAttributes(attrs);
+                var selectedItemDrawable = ta.GetDrawable(0);
+                ta.Recycle();
+                return selectedItemDrawable;
+            }
 
             public void BindLesson(Lesson lesson)
             {
+                _secondLes.SetBackgroundDrawable(null);
+                _secondLes.Clickable = false;
+                _secondLes.SetOnClickListener(null);
+                _firstLes.SetBackgroundDrawable(null);
+                _firstLes.Clickable = false;
+                _firstLes.SetOnClickListener(null);
+
                 _lesson = lesson;
                 if (lesson.LessonsByGroups.Count == 1)
                 {
@@ -137,12 +158,17 @@ namespace SescTool.Helpers
                     {
                         _textViewSubject1.Text = lesson.LessonsByGroups[0].Subject;
                         _textViewClassroom1.Text = lesson.LessonsByGroups[0].Classroom;
+                        _firstLes.SetBackgroundDrawable(GetRippleBackground());
+                        _firstLes.Clickable = true;
+                        _firstLes.SetOnClickListener(this);
                     }
                     else
                     {
                         _textViewSubject2.Text = lesson.LessonsByGroups[0].Subject;
                         _textViewClassroom2.Text = lesson.LessonsByGroups[0].Classroom;
-
+                        _secondLes.SetBackgroundDrawable(GetRippleBackground());
+                        _secondLes.Clickable = true;
+                        _secondLes.SetOnClickListener(this);
                     }
                 }
                 else
@@ -150,8 +176,14 @@ namespace SescTool.Helpers
                     _textViewLessonNum.Text = lesson.Number.ToString();
                     _textViewSubject1.Text = lesson.LessonsByGroups[0].Subject;
                     _textViewClassroom1.Text = lesson.LessonsByGroups[0].Classroom;
+                    _firstLes.SetBackgroundDrawable(GetRippleBackground());
+                    _firstLes.Clickable = true;
+                    _firstLes.SetOnClickListener(this);
                     _textViewSubject2.Text = lesson.LessonsByGroups[1].Subject;
                     _textViewClassroom2.Text = lesson.LessonsByGroups[1].Classroom;
+                    _secondLes.SetBackgroundDrawable(GetRippleBackground());
+                    _secondLes.Clickable = true;
+                    _secondLes.SetOnClickListener(this);
                 }
                 if (String.IsNullOrEmpty(_textViewClassroom1.Text))
                     _textViewClassroom1.Visibility = ViewStates.Gone;
@@ -165,8 +197,8 @@ namespace SescTool.Helpers
                 _textViewSubject2 = view.FindViewById<TextView>(Resource.Id.text_splited_lesson_second);
                 _textViewClassroom1 = view.FindViewById<TextView>(Resource.Id.text_splited_classroom_first);
                 _textViewClassroom2 = view.FindViewById<TextView>(Resource.Id.text_splited_classroom_second);
-                view.FindViewById(Resource.Id.splited_lesson_first_panel).SetOnClickListener(this);
-                view.FindViewById(Resource.Id.splited_lesson_second_panel).SetOnClickListener(this);
+                _firstLes = view.FindViewById<FlowLayout>(Resource.Id.splited_lesson_first_panel);
+                _secondLes = view.FindViewById<FlowLayout>(Resource.Id.splited_lesson_second_panel);
             }
 
             public void OnClick(View v)

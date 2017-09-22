@@ -24,38 +24,32 @@ namespace SescTool.Fragments
         private ImageView _behaviorImageView;
         private ProgressBar _behaviorProgressBar;
         private TextView _behaviorTextView;
-        private bool _errorOccured;
+        private bool _errorLoadingClassListOccured;
+        private bool _errorLoadingScheduleOccured;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             _viewModel = ServiceLocator.GetService<ClassScheduleViewModel>();
             _viewModel.PropertyChanged += ViewModelOnPropertyChanged;
-            _viewModel.OnExceptionOccured += ViewModelOnExceptionOccured;
+            _viewModel.ExceptionOccured += ViewModelExceptionOccured;
         }
 
         public override void OnDestroy()
         {
             _viewModel.PropertyChanged -= ViewModelOnPropertyChanged;
-            _viewModel.OnExceptionOccured -= ViewModelOnExceptionOccured;
+            _viewModel.ExceptionOccured -= ViewModelExceptionOccured;
             base.OnDestroy();
         }
 
-        private void ViewModelOnExceptionOccured(Exception exception, ClassScheduleViewModel.Method method)
+        private void ViewModelExceptionOccured(Exception exception, ClassScheduleViewModel.Method method)
         {
-            _errorOccured = true;
+            if (method == ClassScheduleViewModel.Method.LoadClass) _errorLoadingClassListOccured = true;
+            else _errorLoadingScheduleOccured = true;
         }
-
-        private void UpdateVmBindings()
+        private void OnIsScheduleLoadingChanged()
         {
-            OnClassesChanged();
-            OnCurrentClassChanged();
-            OnIsBusyChanged();
-        }
-
-        private void OnIsBusyChanged()
-        {
-            if (_viewModel.IsBusy)
+            if (_viewModel.IsWeekClassSchduleLoading)
             {
                 _behaviorLine.Visibility = ViewStates.Visible;
                 _behaviorProgressBar.Visibility = ViewStates.Visible;
@@ -64,7 +58,7 @@ namespace SescTool.Fragments
                 _behaviorLine.SetBackgroundColor(new Color(0xd6, 0xcc, 0x15, 0xFF));
                 return;
             }
-            if (!_viewModel.IsBusy && !_errorOccured)
+            if (!_viewModel.IsWeekClassSchduleLoading && !_errorLoadingScheduleOccured)
             {
                 _behaviorLine.Visibility = ViewStates.Visible;
                 _behaviorProgressBar.Visibility = ViewStates.Gone;
@@ -82,7 +76,21 @@ namespace SescTool.Fragments
             _behaviorTextView.SetText(Resource.String.error_occured);
             _behaviorLine.SetBackgroundColor(new Color(0xd6, 0x15, 0x15, 0xFF));
             _behaviorLine.Animate().SetStartDelay(1000).WithEndAction(this).Start();
-            _errorOccured = false;
+            _errorLoadingScheduleOccured = false;
+        }
+
+        private void OnIsLoadingClassListChanged()
+        {
+            if (_viewModel.IsClassListLoading)
+            {
+                _selectClassMenuItem?.SetActionView(new ProgressBar(Context) {Indeterminate = true});
+                _selectClassMenuItem?.SetEnabled(false);
+            }
+            else
+            {
+                _selectClassMenuItem?.SetActionView(null);
+                OnClassesChanged();
+            }
         }
         private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
@@ -94,8 +102,11 @@ namespace SescTool.Fragments
                 case nameof(_viewModel.CurrentClass):
                     OnCurrentClassChanged();
                     break;
-                case nameof(_viewModel.IsBusy):
-                    OnIsBusyChanged();
+                case nameof(_viewModel.IsWeekClassSchduleLoading):
+                    OnIsScheduleLoadingChanged();
+                    break;
+                case nameof(_viewModel.IsClassListLoading):
+                    OnIsLoadingClassListChanged();
                     break;
             }
         }
@@ -109,10 +120,12 @@ namespace SescTool.Fragments
         {
             if (!_viewModel.ScheduleExistsForClass(_viewModel.CurrentClass))
             {
-                _recycler.SetAdapter(null);
+                _recycler?.SetAdapter(null);
+                _selectClassMenuItem?.SetTitle(Resource.String.choose_class);
                 return;
             }
             _recycler?.SetAdapter(new ClassScheduleAdapter(Context, _viewModel.Schedules[_viewModel.CurrentClass]));
+            _selectClassMenuItem?.SetTitle(_viewModel.CurrentClass);
         }
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -127,11 +140,8 @@ namespace SescTool.Fragments
             _swipeRefresh.SetOnRefreshListener(this);
             HasOptionsMenu = true;
 
-            UpdateVmBindings();
-
             if (_viewModel.Classes == null || _viewModel.Classes.Count == 0)
-                _viewModel.LoadClasses();
-
+                _viewModel.RequestClasses();
             return v;
         }
 
@@ -140,7 +150,14 @@ namespace SescTool.Fragments
             base.OnCreateOptionsMenu(menu, inflater);
             inflater.Inflate(Resource.Menu.class_schedule_menu, menu);
             _selectClassMenuItem = menu.FindItem(Resource.Id.choose_class_menu_item);
-            _selectClassMenuItem.SetEnabled(_viewModel.Classes != null && _viewModel.Classes.Count != 0);
+            UpdateLinks();
+        }
+
+        private void UpdateLinks()
+        {
+            OnClassesChanged();
+            OnCurrentClassChanged();
+            OnIsLoadingClassListChanged();
         }
 
         public override bool OnOptionsItemSelected(IMenuItem item)
@@ -148,7 +165,7 @@ namespace SescTool.Fragments
             switch (item.ItemId)
             {
                 case Resource.Id.choose_class_menu_item:
-                    new ClassPickerDialogFragment(_viewModel.Classes, this).Show(FragmentManager, "classpicker");
+                    new ClassPickerDialogFragment(_viewModel.Classes, this, _viewModel.CurrentClass).Show(FragmentManager, "classpicker");
                     break;
             }
             return base.OnOptionsItemSelected(item);
@@ -161,7 +178,8 @@ namespace SescTool.Fragments
 
         public void OnClassChoose(string @class)
         {
-            _viewModel.LoadSchedule(@class);
+            if (@class == _viewModel.CurrentClass) return;
+            _viewModel.RequestSchedule(@class);
         }
 
         public void Run()

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <resources>
-  <item name="Primary" type="color">#3f51b5</item>
-  <item name="PrimaryDark" type="color">#303f9f</item>
+  <item name="Primary" type="color">#254cdb</item>
+  <item name="PrimaryDark" type="color">#3223db</item>
   <item name="Accent" type="color">#ff4081</item>
   <item name="FragmentFillerBackground" type="color">#cccdce</item>
   <item name="FragmentFillerTextColor" type="color">#8d9196</item>

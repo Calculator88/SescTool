@@ -106,7 +106,9 @@
     <Compile Include="Fragments\ClassPickerDialogFragment.cs" />
     <Compile Include="Fragments\ClassScheduleFragment.cs" />
     <Compile Include="Fragments\TeacherScheduleFragment.cs" />
+    <Compile Include="Framework\ScheduleLoadedEventArgs.cs" />
     <Compile Include="Framework\ClassNotExistsException.cs" />
+    <Compile Include="Framework\Domain.cs" />
     <Compile Include="Framework\NoClassesException.cs" />
     <Compile Include="Framework\NoTimetableException.cs" />
     <Compile Include="Framework\ServiceLocator.cs" />
@@ -127,7 +129,6 @@
     <Compile Include="Services\TimetableProvider.cs" />
     <Compile Include="SplashActivity.cs" />
     <Compile Include="ViewModels\ClassScheduleViewModel.cs" />
-    <Compile Include="Views\ClassPicker.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -159,9 +160,6 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\classPicker.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-    <AndroidResource Include="Resources\layout\class_circle_item.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\class_picker_fragment.axml">

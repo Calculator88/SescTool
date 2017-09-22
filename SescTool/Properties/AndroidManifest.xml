@@ -1,6 +1,6 @@
 ﻿<manifest
   xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.sesc.timetable"
+  package="com.sesc.timetable4"
   android:versionCode="1"
   android:versionName="1.1"
   android:installLocation="auto">

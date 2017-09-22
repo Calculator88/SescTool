@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_height="match_parent"
   android:layout_width="match_parent"
-  android:animateLayoutChanges="true"
-  android:orientation="vertical">
+  android:animateLayoutChanges="true">
+  <android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/swipeRefreshLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.v7.widget.RecyclerView
+      android:layout_width="match_parent"
+      android:id="@+id/classes_timetable_recycler"
+      android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
+  </android.support.v4.widget.SwipeRefreshLayout>
   <LinearLayout
+    android:layout_gravity="top"
     android:animateLayoutChanges="false"
     android:layout_width="match_parent"
     android:layout_height="40dp"
@@ -31,14 +41,4 @@
       android:layout_marginLeft="10dp"
       android:gravity="center_vertical|left"/>
   </LinearLayout>
-  <android.support.v4.widget.SwipeRefreshLayout
-    android:id="@+id/swipeRefreshLayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <android.support.v7.widget.RecyclerView
-      android:layout_width="match_parent"
-      android:id="@+id/classes_timetable_recycler"
-      android:layout_height="match_parent">
-    </android.support.v7.widget.RecyclerView>
-  </android.support.v4.widget.SwipeRefreshLayout>
-</LinearLayout>
+</FrameLayout>
