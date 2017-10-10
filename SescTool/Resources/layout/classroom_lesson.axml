@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="horizontal"
+  android:layout_width="match_parent"
+  android:minHeight="@dimen/class_schedule_min_row_height"
+  android:layout_height="wrap_content">
+  <TextView
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:layout_width="80dp"
+    android:id="@+id/text_classroom_classroom"/>
+  <View
+    android:layout_height="match_parent"
+    android:layout_width="1dp"
+    android:background="#22000000"/>
+  <TextView
+    android:layout_height="match_parent"
+    android:layout_width="0dp"
+    android:layout_weight="1"
+    android:gravity="center"
+    android:id="@+id/text_classroom_class"/>
+  <View
+    android:layout_height="match_parent"
+    android:layout_width="1dp"
+    android:background="#22000000"/>
+  <TextView
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:layout_width="0dp"
+    android:layout_weight="2"
+    android:id="@+id/text_classroom_subject"/>
+</LinearLayout>

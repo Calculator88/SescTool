@@ -8,7 +8,7 @@ using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 using Apmem;
-using SescTool.Model;
+using SescTool.Model.ClassSchedule;
 
 namespace SescTool.Helpers
 {
@@ -56,15 +56,15 @@ namespace SescTool.Helpers
             switch (viewType)
             {
                 case 0:
-                    var viewEmpty = LayoutInflater.From(_context)
+                    var viewEmpty = LayoutInflater.From(parent.Context)
                         .Inflate(Resource.Layout.class_schedule_empty_lesson, parent, false);
                     return new EmptyLessonViewHolder(viewEmpty);
                 case 1:
-                    var viewCommon = LayoutInflater.From(_context)
+                    var viewCommon = LayoutInflater.From(parent.Context)
                         .Inflate(Resource.Layout.common_lesson_list_item, parent, false);
                     return new CommonLessonViewHolder(viewCommon);
                 default:
-                    var viewSplited = LayoutInflater.From(_context)
+                    var viewSplited = LayoutInflater.From(parent.Context)
                         .Inflate(Resource.Layout.splited_lesson_list_item, parent, false);
                     return new SplitedLessonViewHolder(viewSplited);
             }
@@ -143,10 +143,10 @@ namespace SescTool.Helpers
 
             public void BindLesson(Lesson lesson)
             {
-                _secondLes.SetBackgroundDrawable(null);
+                _secondLes.Background = null;
                 _secondLes.Clickable = false;
                 _secondLes.SetOnClickListener(null);
-                _firstLes.SetBackgroundDrawable(null);
+                _firstLes.Background = null;
                 _firstLes.Clickable = false;
                 _firstLes.SetOnClickListener(null);
 
@@ -158,7 +158,7 @@ namespace SescTool.Helpers
                     {
                         _textViewSubject1.Text = lesson.LessonsByGroups[0].Subject;
                         _textViewClassroom1.Text = lesson.LessonsByGroups[0].Classroom;
-                        _firstLes.SetBackgroundDrawable(GetRippleBackground());
+                        _firstLes.Background = GetRippleBackground();
                         _firstLes.Clickable = true;
                         _firstLes.SetOnClickListener(this);
                     }
@@ -166,7 +166,7 @@ namespace SescTool.Helpers
                     {
                         _textViewSubject2.Text = lesson.LessonsByGroups[0].Subject;
                         _textViewClassroom2.Text = lesson.LessonsByGroups[0].Classroom;
-                        _secondLes.SetBackgroundDrawable(GetRippleBackground());
+                        _secondLes.Background = GetRippleBackground();
                         _secondLes.Clickable = true;
                         _secondLes.SetOnClickListener(this);
                     }
@@ -176,12 +176,12 @@ namespace SescTool.Helpers
                     _textViewLessonNum.Text = lesson.Number.ToString();
                     _textViewSubject1.Text = lesson.LessonsByGroups[0].Subject;
                     _textViewClassroom1.Text = lesson.LessonsByGroups[0].Classroom;
-                    _firstLes.SetBackgroundDrawable(GetRippleBackground());
+                    _firstLes.Background = GetRippleBackground();
                     _firstLes.Clickable = true;
                     _firstLes.SetOnClickListener(this);
                     _textViewSubject2.Text = lesson.LessonsByGroups[1].Subject;
                     _textViewClassroom2.Text = lesson.LessonsByGroups[1].Classroom;
-                    _secondLes.SetBackgroundDrawable(GetRippleBackground());
+                    _secondLes.Background = GetRippleBackground();
                     _secondLes.Clickable = true;
                     _secondLes.SetOnClickListener(this);
                 }

@@ -4,19 +4,23 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using SescTool.Framework;
 using SescTool.Helpers;
-using SescTool.Model;
+using SescTool.Model.ClassSchedule;
 using SescTool.Services;
 
 namespace SescTool.ViewModels
 {
     internal class ClassScheduleViewModel : ObservableObject
     {
-        internal enum Method
+        public ClassScheduleViewModel()
         {
-            LoadClass,
-            LoadTimetable
+            _provider = ServiceLocator.GetService<TimetableProvider>();
+            _regex = new Regex("(\\d+)(\\w+)", RegexOptions.Compiled);
+            _provider.ClassListLoaded += ProviderOnClassListLoaded;
+            _provider.WeekScheduleForClassLoaded += ProviderOnWeekScheduleForClassLoaded;
         }
-        internal delegate void ExceptionOccuredEventHandler(Exception exception, Method method);
+        
+        #region Private fields
+
         private readonly TimetableProvider _provider;
         private readonly Regex _regex;
         private Dictionary<string, List<string>> _classDictionary;
@@ -24,34 +28,25 @@ namespace SescTool.ViewModels
         private string _currentClass;
         private bool _isClassListLoading;
         private bool _isWeekClassScheduleLoading;
+        private bool _isRefreshing;
 
-        public event ExceptionOccuredEventHandler ExceptionOccured;
-
-        public ClassScheduleViewModel()
-        {
-            _provider = new TimetableProvider();
-            _regex = new Regex("(\\d+)(\\w+)", RegexOptions.Compiled);
-            _provider.ClassListLoaded += ProviderOnClassListLoaded;
-            _provider.WeekScheduleForClassLoaded += ProviderOnWeekScheduleForClassLoaded;
-        }
+        #endregion
+        
+        #region Event handlers
 
         private void ProviderOnWeekScheduleForClassLoaded(object sender, WeekScheduleForClassLoadedEventArgs args)
         {
-            if (args.Cancelled)
-            {
-                IsWeekClassSchduleLoading = false;
-                return;
-            }
+            IsWeekClassSchduleLoading = false;
+            IsRefreshing = false;
+            if (args.Cancelled) return;
             if (args.Error != null)
             {
                 ExceptionOccured?.Invoke(args.Error, Method.LoadTimetable);
-                IsWeekClassSchduleLoading = false;
                 return;
             }
             var @class = args.Schedule.First().Key;
             AppendSchedule(@class, args.Schedule[@class]);
             CurrentClass = @class;
-            IsWeekClassSchduleLoading = false;
         }
 
         private void ProviderOnClassListLoaded(object sender, ClassesListLoadedEventArgs args)
@@ -83,6 +78,10 @@ namespace SescTool.ViewModels
             IsClassListLoading = false;
         }
 
+        #endregion
+
+        #region Public methods
+
         public bool ScheduleExistsForClass(string @class)
         {
             return _schedules != null && _schedules.ContainsKey(@class);
@@ -90,22 +89,38 @@ namespace SescTool.ViewModels
 
         public void RequestClasses()
         {
+            if (IsClassListLoading) _provider.CancelGettingClasses();
             IsClassListLoading = true;
             _provider.GetClasses();
         }
 
-        public void RequestSchedule(string @class)
+        public void RequestSchedule(string @class, bool refresh)
         {
+            if (IsWeekClassSchduleLoading) _provider.CancelGettingWeekScheduleForClass();
+            if (refresh)
+            {
+                IsRefreshing = true;
+                _provider.GetWeekScheduleForClass(@class);
+                return;
+            }
+            if (CurrentClass == @class) return;
+            if (ScheduleExistsForClass(@class))
+            {
+                CurrentClass = @class;
+                return;
+            }
             IsWeekClassSchduleLoading = true;
             _provider.GetWeekScheduleForClass(@class);
         }
 
-        private void AppendSchedule(string @class, ScheduleWeek schedule)
+        #endregion
+
+        #region Properties
+
+        public bool IsRefreshing
         {
-            if (_schedules == null)
-                _schedules = new Dictionary<string, ScheduleWeek>();
-            _schedules[@class] = schedule;
-            OnPropertyChanged(nameof(Schedules));
+            get => _isRefreshing;
+            set => SetProperty(ref _isRefreshing, value);
         }
 
         public Dictionary<string, List<string>> Classes
@@ -138,14 +153,36 @@ namespace SescTool.ViewModels
             set => SetProperty(ref _isWeekClassScheduleLoading, value);
         }
 
-        public void CancelGettingClassList()
+        #endregion
+
+        #region Private methods
+
+        private void AppendSchedule(string @class, ScheduleWeek schedule)
         {
-            _provider.CancelGettingClasses();
+            if (_schedules == null)
+                _schedules = new Dictionary<string, ScheduleWeek>();
+            _schedules[@class] = schedule;
+            OnPropertyChanged(nameof(Schedules));
         }
 
-        public void CancelGettingSchedule()
+        #endregion
+
+        #region Public members
+
+        public enum Method
         {
-            _provider.CancelGettingWeekScheduleForClass();
+            LoadClass,
+            LoadTimetable
         }
+        public delegate void ExceptionOccuredEventHandler(Exception exception, Method method);
+
+        #endregion
+
+        #region Events
+
+        public event ExceptionOccuredEventHandler ExceptionOccured;
+
+        #endregion
+
     }
 }

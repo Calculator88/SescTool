@@ -104,6 +104,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Fragments\ClassPickerDialogFragment.cs" />
+    <Compile Include="Fragments\ClassroomScheduleFragment.cs" />
     <Compile Include="Fragments\ClassScheduleFragment.cs" />
     <Compile Include="Fragments\TeacherScheduleFragment.cs" />
     <Compile Include="Framework\ScheduleLoadedEventArgs.cs" />
@@ -113,13 +114,19 @@
     <Compile Include="Framework\NoTimetableException.cs" />
     <Compile Include="Framework\ServiceLocator.cs" />
     <Compile Include="Helpers\ClassDayScheduleAdapter.cs" />
+    <Compile Include="Helpers\ClassroomLessonAdapter.cs" />
+    <Compile Include="Helpers\ClassroomScheduleAdepter.cs" />
     <Compile Include="Helpers\ClassScheduleAdapter.cs" />
+    <Compile Include="Helpers\DropDownAdapter.cs" />
     <Compile Include="Helpers\ObservableObject.cs" />
     <Compile Include="MainActivity.cs" />
-    <Compile Include="Model\Lesson.cs" />
-    <Compile Include="Model\LessonByGroups.cs" />
-    <Compile Include="Model\ScheduleDay.cs" />
-    <Compile Include="Model\ScheduleWeek.cs" />
+    <Compile Include="Model\ClassroomSchedule\Lesson.cs" />
+    <Compile Include="Model\ClassroomSchedule\ScheduleDay.cs" />
+    <Compile Include="Model\ClassroomSchedule\ScheduleLesson.cs" />
+    <Compile Include="Model\ClassSchedule\Lesson.cs" />
+    <Compile Include="Model\ClassSchedule\LessonByGroups.cs" />
+    <Compile Include="Model\ClassSchedule\ScheduleDay.cs" />
+    <Compile Include="Model\ClassSchedule\ScheduleWeek.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -128,6 +135,7 @@
     <Compile Include="Services\TimetableDownloader.cs" />
     <Compile Include="Services\TimetableProvider.cs" />
     <Compile Include="SplashActivity.cs" />
+    <Compile Include="ViewModels\ClassroomDailyScheduleViewModel.cs" />
     <Compile Include="ViewModels\ClassScheduleViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -153,16 +161,22 @@
     <AndroidResource Include="Resources\layout\class_schedule_empty_lesson.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\class_picker_layout.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
     <AndroidResource Include="Resources\layout\teacher_schedule_fragment.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\classPicker.axml">
+    <AndroidResource Include="Resources\layout\class_picker_fragment.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\class_picker_fragment.axml">
+    <AndroidResource Include="Resources\layout\classroom_schedule_fragment.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\classroom_schedule_card.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\classroom_lesson.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\spinner_item.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -217,13 +231,16 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\classPicker_circle_background.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable\warning_sign.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\ok_sign.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\header_top.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\menu\classroom_schedule_menu.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets')" />

@@ -2,43 +2,17 @@
 <FrameLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_height="match_parent"
-  android:layout_width="match_parent"
-  android:animateLayoutChanges="true">
+  android:layout_width="match_parent">
   <android.support.v4.widget.SwipeRefreshLayout
     android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <android.support.v7.widget.RecyclerView
       android:layout_width="match_parent"
+      android:paddingTop="15dp"
+      android:clipToPadding="false"
       android:id="@+id/classes_timetable_recycler"
       android:layout_height="match_parent">
     </android.support.v7.widget.RecyclerView>
   </android.support.v4.widget.SwipeRefreshLayout>
-  <LinearLayout
-    android:layout_gravity="top"
-    android:animateLayoutChanges="false"
-    android:layout_width="match_parent"
-    android:layout_height="40dp"
-    android:orientation="horizontal"
-    android:padding="3dp"
-    android:visibility="gone"
-    android:id="@+id/classSchedule_behavior_line">
-    <ImageView
-      android:layout_height="34dp"
-      android:layout_width="34dp"
-      android:visibility="gone"
-      android:id="@+id/behavior_image"/>
-    <ProgressBar
-      android:layout_height="34dp"
-      android:layout_width="34dp"
-      android:visibility="gone"
-      android:id="@+id/behavior_progressBar"
-      android:indeterminate="true"/>
-    <TextView
-      android:layout_height="match_parent"
-      android:layout_width="match_parent"
-      android:id="@+id/behavior_text"
-      android:layout_marginLeft="10dp"
-      android:gravity="center_vertical|left"/>
-  </LinearLayout>
 </FrameLayout>

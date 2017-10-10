@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_height="match_parent"
+  android:layout_width="match_parent"
+  android:animateLayoutChanges="true">
+  <android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/swipeRefreshLayoutClassrooms"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.v7.widget.RecyclerView
+      android:layout_width="match_parent"
+      android:paddingTop="@dimen/classroom_schedule_card_padding"
+      android:clipToPadding="false"
+      android:id="@+id/classrooms_timetable_recycler"
+      android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
+  </android.support.v4.widget.SwipeRefreshLayout>
+</FrameLayout>

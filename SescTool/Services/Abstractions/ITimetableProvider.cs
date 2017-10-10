@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using SescTool.Model;
+using SescTool.Model.ClassSchedule;
 
 namespace SescTool.Services.Abstractions
 {

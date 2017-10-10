@@ -5,18 +5,23 @@
   </style>
   <style name="MyTheme.Base" parent="Theme.AppCompat.Light">
     <item name="windowNoTitle">true</item>
-    <item name="titleTextColor">#ffffff</item>
+    <item name="titleTextColor">@color/primary_text</item>
     <item name="windowActionModeOverlay">true</item>
     <item name="android:statusBarColor">@android:color/transparent</item>
     <item name="windowActionBar">false</item>
-    <item name="colorPrimary">@color/Primary</item>
-    <item name="colorPrimaryDark">@color/PrimaryDark</item>
-    <item name="colorAccent">@color/Accent</item>
+    <item name="colorPrimary">@color/primary</item>
+    <item name="colorPrimaryDark">@color/primary_dark</item>
+    <item name="colorAccent">@color/accent</item>
+    <item name="android:spinnerStyle">@style/spinnerStyle</item>
   </style>
-  <style name="datepickerdialog" parent="Theme.AppCompat.Light.Dialog">
-    <item name="colorPrimary">@color/Primary</item>
-    <item name="colorPrimaryDark">@color/PrimaryDark</item>
-    <item name="colorAccent">@color/Accent</item>
+  <style name="spinnerStyle" parent="Widget.AppCompat.Spinner">
+    <item name="android:gravity">right</item>
+    <item name="android:backgroundTint">@color/primary_text</item>
+    <item name="android:backgroundTintMode">src_atop</item>
+    <item name="android:spinnerItemStyle">@style/spinnerItemStyle</item>
+  </style>
+  <style name="spinnerItemStyle">
+    <item name="android:textColor">@color/primary_text</item>
   </style>
   <style name="MyTheme.Splash" parent="Theme.AppCompat.Light.NoActionBar">
     <item name="android:windowTranslucentStatus">true</item>

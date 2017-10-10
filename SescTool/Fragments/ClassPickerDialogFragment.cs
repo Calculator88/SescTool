@@ -9,27 +9,39 @@ using Android.Widget;
 
 namespace SescTool.Fragments
 {
-    public class ClassPickerDialogFragment : AppCompatDialogFragment, View.IOnClickListener,
-        NumberPicker.IOnValueChangeListener
+    public class ClassPickerDialogFragment : AppCompatDialogFragment
     {
-        private NumberPicker _classPicker;
-        private NumberPicker _literPicker;
-        private Button _cancelButton;
-        private Button _selectButton;
-        private string _selectedClass;
-        private string _selectedLiter;
-        private readonly string _startValue;
-        private readonly IOnClassChooseListener _listener;
-
+        public ClassPickerDialogFragment()
+        {
+            
+        }
         public ClassPickerDialogFragment(Dictionary<string, List<string>> data, IOnClassChooseListener listener, string startValue = null)
         {
             _data = data;
             _listener = listener;
             _startValue = startValue;
         }
+        
+        #region Private fields
+
+        private NumberPicker _classPicker;
+        private NumberPicker _literPicker;
+        private Button _cancelButton;
+        private Button _selectButton;
+        private string _selectedClass;
+        private string _selectedLiter;
+        private string _startValue;
+        private readonly IOnClassChooseListener _listener;
+        private readonly Dictionary<string, List<string>> _data;
+        private const string SelectedClassTag = "com.sesc.timetable.ClassPickerFragment.SelectedClass";
+
+        #endregion
+
+        #region Fragment lifecycle
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
+            RetainInstance = true;
             var view = LayoutInflater.Inflate(Resource.Layout.class_picker_fragment, null);
             _cancelButton = view.FindViewById<Button>(Resource.Id.classPicker_cancel_button);
             _selectButton = view.FindViewById<Button>(Resource.Id.classPicker_ok_button);
@@ -38,12 +50,19 @@ namespace SescTool.Fragments
 
             _classPicker.DescendantFocusability = DescendantFocusability.BlockDescendants;
             _literPicker.DescendantFocusability = DescendantFocusability.BlockDescendants;
-            _classPicker.SetOnValueChangedListener(this);
-            _literPicker.SetOnValueChangedListener(this);
-            _cancelButton.SetOnClickListener(this);
-            _selectButton.SetOnClickListener(this);
+            _classPicker.ValueChanged += (sender, args) => { InvalidateLiters(args.NewVal); };
+            _literPicker.ValueChanged += (sender, args) => { _selectedLiter = _data[_selectedClass][args.NewVal]; };
+            _selectButton.Click += (sender, args) =>
+            {
+                _listener?.OnClassChoose(_selectedClass + _selectedLiter);
+                Dismiss();
+            };
+            _cancelButton.Click += (sender, args) => { Dismiss(); };
 
             InvalidateData();
+
+            _startValue = savedInstanceState?.GetString(SelectedClassTag) ?? _startValue;
+
             if (String.IsNullOrEmpty(_startValue)) return view;
 
             var regex = new Regex("(\\d+)(\\w+)", RegexOptions.Compiled);
@@ -59,26 +78,24 @@ namespace SescTool.Fragments
 
             return view;
         }
-        public void OnClick(View v)
+
+        public override void OnSaveInstanceState(Bundle outState)
         {
-            switch (v.Id)
-            {
-                case Resource.Id.classPicker_ok_button:
-                    _listener?.OnClassChoose(_selectedClass + _selectedLiter);
-                    Dismiss();
-                    break;
-                case Resource.Id.classPicker_cancel_button:
-                    Dismiss();
-                    break;
-            }
+            base.OnSaveInstanceState(outState);
+            var value = _selectedClass + _selectedLiter;
+            outState.PutString(SelectedClassTag, value);
         }
 
-        public interface IOnClassChooseListener
+        public override void OnDestroyView()
         {
-            void OnClassChoose(string @class);
+            if (Dialog != null && RetainInstance)
+                Dialog.SetDismissMessage(null);
+            base.OnDestroyView();
         }
 
-        private readonly Dictionary<string, List<string>> _data;
+        #endregion
+
+        #region Private methods
 
         private void InvalidateData()
         {
@@ -99,17 +116,17 @@ namespace SescTool.Fragments
             _selectedClass = _data.ElementAt(currentPosition).Key;
             _selectedLiter = _data.ElementAt(currentPosition).Value[0];
         }
-        public void OnValueChange(NumberPicker picker, int oldVal, int newVal)
+
+        #endregion
+
+        #region Public members
+
+        public interface IOnClassChooseListener
         {
-            switch (picker.Id)
-            {
-                case Resource.Id.classPicker_class_picker:
-                    InvalidateLiters(newVal);
-                    break;
-                case Resource.Id.class_Picker_liter_picker:
-                    _selectedLiter = _data[_selectedClass][newVal];
-                    break;
-            }
+            void OnClassChoose(string @class);
         }
+
+        #endregion
+
     }
 }

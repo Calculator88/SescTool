@@ -108,8 +108,14 @@ namespace SescTool
 		public partial class Array
 		{
 			
+			// aapt resource value: 0x7f0d0002
+			public const int classroom_days = 2131558402;
+			
+			// aapt resource value: 0x7f0d0001
+			public const int nav_toolbar_titles = 2131558401;
+			
 			// aapt resource value: 0x7f0d0000
-			public const int nav_toolbar_titles = 2131558400;
+			public const int subtitles = 2131558400;
 			
 			static Array()
 			{
@@ -1164,20 +1170,11 @@ namespace SescTool
 		public partial class Color
 		{
 			
-			// aapt resource value: 0x7f09004c
-			public const int Accent = 2131296332;
+			// aapt resource value: 0x7f090052
+			public const int FragmentFillerBackground = 2131296338;
 			
-			// aapt resource value: 0x7f09004d
-			public const int FragmentFillerBackground = 2131296333;
-			
-			// aapt resource value: 0x7f09004e
-			public const int FragmentFillerTextColor = 2131296334;
-			
-			// aapt resource value: 0x7f09004a
-			public const int Primary = 2131296330;
-			
-			// aapt resource value: 0x7f09004b
-			public const int PrimaryDark = 2131296331;
+			// aapt resource value: 0x7f090053
+			public const int FragmentFillerTextColor = 2131296339;
 			
 			// aapt resource value: 0x7f090054
 			public const int abc_background_cache_hint_selector_material_dark = 2131296340;
@@ -1254,11 +1251,23 @@ namespace SescTool
 			// aapt resource value: 0x7f090068
 			public const int abc_tint_switch_track = 2131296360;
 			
+			// aapt resource value: 0x7f09004d
+			public const int accent = 2131296333;
+			
+			// aapt resource value: 0x7f09004f
+			public const int accent_dark = 2131296335;
+			
+			// aapt resource value: 0x7f09004e
+			public const int accent_light = 2131296334;
+			
 			// aapt resource value: 0x7f090009
 			public const int accent_material_dark = 2131296265;
 			
 			// aapt resource value: 0x7f09000a
 			public const int accent_material_light = 2131296266;
+			
+			// aapt resource value: 0x7f090051
+			public const int accent_text = 2131296337;
 			
 			// aapt resource value: 0x7f09000b
 			public const int background_floating_material_dark = 2131296267;
@@ -1307,21 +1316,6 @@ namespace SescTool
 			
 			// aapt resource value: 0x7f090003
 			public const int cardview_shadow_start_color = 2131296259;
-			
-			// aapt resource value: 0x7f090051
-			public const int classPicker_body_background = 2131296337;
-			
-			// aapt resource value: 0x7f090052
-			public const int classPicker_circle_background = 2131296338;
-			
-			// aapt resource value: 0x7f090053
-			public const int classPicker_circle_item_background_color = 2131296339;
-			
-			// aapt resource value: 0x7f090050
-			public const int classPicker_title_class_active_color = 2131296336;
-			
-			// aapt resource value: 0x7f09004f
-			public const int classPicker_title_class_inactive_color = 2131296335;
 			
 			// aapt resource value: 0x7f09003f
 			public const int design_bottom_navigation_shadow_color = 2131296319;
@@ -1431,17 +1425,29 @@ namespace SescTool
 			// aapt resource value: 0x7f09002c
 			public const int notification_material_background_media_default_color = 2131296300;
 			
+			// aapt resource value: 0x7f09004a
+			public const int primary = 2131296330;
+			
+			// aapt resource value: 0x7f09004c
+			public const int primary_dark = 2131296332;
+			
 			// aapt resource value: 0x7f09002d
 			public const int primary_dark_material_dark = 2131296301;
 			
 			// aapt resource value: 0x7f09002e
 			public const int primary_dark_material_light = 2131296302;
 			
+			// aapt resource value: 0x7f09004b
+			public const int primary_light = 2131296331;
+			
 			// aapt resource value: 0x7f09002f
 			public const int primary_material_dark = 2131296303;
 			
 			// aapt resource value: 0x7f090030
 			public const int primary_material_light = 2131296304;
+			
+			// aapt resource value: 0x7f090050
+			public const int primary_text = 2131296336;
 			
 			// aapt resource value: 0x7f090031
 			public const int primary_text_default_material_dark = 2131296305;
@@ -1735,35 +1741,14 @@ namespace SescTool
 			// aapt resource value: 0x7f060005
 			public const int cardview_default_radius = 2131099653;
 			
-			// aapt resource value: 0x7f060095
-			public const int classPicker_body_to_circle_padding = 2131099797;
-			
-			// aapt resource value: 0x7f060094
-			public const int classPicker_circle_in_diamener = 2131099796;
-			
-			// aapt resource value: 0x7f060096
-			public const int classPicker_circle_item_diameter = 2131099798;
-			
-			// aapt resource value: 0x7f060097
-			public const int classPicker_circle_item_padding = 2131099799;
-			
-			// aapt resource value: 0x7f060093
-			public const int classPicker_circle_out_diameter = 2131099795;
-			
-			// aapt resource value: 0x7f060091
-			public const int classPicker_header_classes_padding = 2131099793;
-			
-			// aapt resource value: 0x7f060092
-			public const int classPicker_header_classes_textSize = 2131099794;
-			
-			// aapt resource value: 0x7f06008f
-			public const int classPicker_header_leftright_padding = 2131099791;
-			
 			// aapt resource value: 0x7f060090
-			public const int classPicker_header_topbottom_padding = 2131099792;
+			public const int class_schedule_card_max_width = 2131099792;
 			
 			// aapt resource value: 0x7f06008e
 			public const int class_schedule_min_row_height = 2131099790;
+			
+			// aapt resource value: 0x7f06008f
+			public const int classroom_schedule_card_padding = 2131099791;
 			
 			// aapt resource value: 0x7f060070
 			public const int design_appbar_elevation = 2131099760;
@@ -2229,28 +2214,28 @@ namespace SescTool
 			public const int avd_show_password = 2130837588;
 			
 			// aapt resource value: 0x7f020055
-			public const int classPicker_circle_background = 2130837589;
+			public const int design_bottom_navigation_item_background = 2130837589;
 			
 			// aapt resource value: 0x7f020056
-			public const int design_bottom_navigation_item_background = 2130837590;
+			public const int design_fab_background = 2130837590;
 			
 			// aapt resource value: 0x7f020057
-			public const int design_fab_background = 2130837591;
+			public const int design_ic_visibility = 2130837591;
 			
 			// aapt resource value: 0x7f020058
-			public const int design_ic_visibility = 2130837592;
+			public const int design_ic_visibility_off = 2130837592;
 			
 			// aapt resource value: 0x7f020059
-			public const int design_ic_visibility_off = 2130837593;
+			public const int design_password_eye = 2130837593;
 			
 			// aapt resource value: 0x7f02005a
-			public const int design_password_eye = 2130837594;
+			public const int design_snackbar_background = 2130837594;
 			
 			// aapt resource value: 0x7f02005b
-			public const int design_snackbar_background = 2130837595;
+			public const int header = 2130837595;
 			
 			// aapt resource value: 0x7f02005c
-			public const int header = 2130837596;
+			public const int header_top = 2130837596;
 			
 			// aapt resource value: 0x7f02005d
 			public const int Icon = 2130837597;
@@ -2394,15 +2379,6 @@ namespace SescTool
 			// aapt resource value: 0x7f070020
 			public const int beginning = 2131165216;
 			
-			// aapt resource value: 0x7f07007f
-			public const int behavior_image = 2131165311;
-			
-			// aapt resource value: 0x7f070080
-			public const int behavior_progressBar = 2131165312;
-			
-			// aapt resource value: 0x7f070081
-			public const int behavior_text = 2131165313;
-			
 			// aapt resource value: 0x7f070028
 			public const int bottom = 2131165224;
 			
@@ -2424,8 +2400,8 @@ namespace SescTool
 			// aapt resource value: 0x7f07005d
 			public const int checkbox = 2131165277;
 			
-			// aapt resource value: 0x7f0700be
-			public const int choose_class_menu_item = 2131165374;
+			// aapt resource value: 0x7f0700bf
+			public const int choose_class_menu_item = 2131165375;
 			
 			// aapt resource value: 0x7f0700a9
 			public const int chronometer = 2131165353;
@@ -2439,29 +2415,23 @@ namespace SescTool
 			// aapt resource value: 0x7f070078
 			public const int classPicker_ok_button = 2131165304;
 			
-			// aapt resource value: 0x7f07007e
-			public const int classSchedule_behavior_line = 2131165310;
-			
 			// aapt resource value: 0x7f070076
 			public const int class_Picker_liter_picker = 2131165302;
-			
-			// aapt resource value: 0x7f070084
-			public const int class_circle_classes = 2131165316;
-			
-			// aapt resource value: 0x7f070085
-			public const int class_circle_liters = 2131165317;
-			
-			// aapt resource value: 0x7f070083
-			public const int class_liter = 2131165315;
 			
 			// aapt resource value: 0x7f07007a
 			public const int class_schedule_list_view = 2131165306;
 			
-			// aapt resource value: 0x7f070082
-			public const int class_title = 2131165314;
-			
 			// aapt resource value: 0x7f07007d
 			public const int classes_timetable_recycler = 2131165309;
+			
+			// aapt resource value: 0x7f070083
+			public const int classroom_schedule_list_view = 2131165315;
+			
+			// aapt resource value: 0x7f0700c0
+			public const int classroom_select_day_spinner = 2131165376;
+			
+			// aapt resource value: 0x7f070085
+			public const int classrooms_timetable_recycler = 2131165317;
 			
 			// aapt resource value: 0x7f070039
 			public const int clip_horizontal = 2131165241;
@@ -2553,11 +2523,14 @@ namespace SescTool
 			// aapt resource value: 0x7f07003f
 			public const int @fixed = 2131165247;
 			
-			// aapt resource value: 0x7f0700bf
-			public const int grp1 = 2131165375;
+			// aapt resource value: 0x7f070082
+			public const int free_classroooms_button = 2131165314;
 			
-			// aapt resource value: 0x7f0700c3
-			public const int grp2 = 2131165379;
+			// aapt resource value: 0x7f0700c1
+			public const int grp1 = 2131165377;
+			
+			// aapt resource value: 0x7f0700c5
+			public const int grp2 = 2131165381;
 			
 			// aapt resource value: 0x7f070005
 			public const int home = 2131165189;
@@ -2607,8 +2580,8 @@ namespace SescTool
 			// aapt resource value: 0x7f070041
 			public const int ltr = 2131165249;
 			
-			// aapt resource value: 0x7f0700bd
-			public const int masked = 2131165373;
+			// aapt resource value: 0x7f0700be
+			public const int masked = 2131165374;
 			
 			// aapt resource value: 0x7f0700a3
 			public const int media_actions = 2131165347;
@@ -2622,17 +2595,17 @@ namespace SescTool
 			// aapt resource value: 0x7f070019
 			public const int multiply = 2131165209;
 			
-			// aapt resource value: 0x7f0700c0
-			public const int nav_class_schedule = 2131165376;
-			
 			// aapt resource value: 0x7f0700c2
-			public const int nav_classroom_timetable = 2131165378;
+			public const int nav_class_schedule = 2131165378;
 			
 			// aapt resource value: 0x7f0700c4
-			public const int nav_settings = 2131165380;
+			public const int nav_classroom_timetable = 2131165380;
 			
-			// aapt resource value: 0x7f0700c1
-			public const int nav_techer_schedule = 2131165377;
+			// aapt resource value: 0x7f0700c6
+			public const int nav_settings = 2131165382;
+			
+			// aapt resource value: 0x7f0700c3
+			public const int nav_techer_schedule = 2131165379;
 			
 			// aapt resource value: 0x7f07009a
 			public const int nav_view = 2131165338;
@@ -2802,6 +2775,9 @@ namespace SescTool
 			// aapt resource value: 0x7f07007c
 			public const int swipeRefreshLayout = 2131165308;
 			
+			// aapt resource value: 0x7f070084
+			public const int swipeRefreshLayoutClassrooms = 2131165316;
+			
 			// aapt resource value: 0x7f070011
 			public const int tabMode = 2131165201;
 			
@@ -2816,6 +2792,15 @@ namespace SescTool
 			
 			// aapt resource value: 0x7f070053
 			public const int textSpacerNoTitle = 2131165267;
+			
+			// aapt resource value: 0x7f07007f
+			public const int text_classroom_class = 2131165311;
+			
+			// aapt resource value: 0x7f07007e
+			public const int text_classroom_classroom = 2131165310;
+			
+			// aapt resource value: 0x7f070080
+			public const int text_classroom_subject = 2131165312;
 			
 			// aapt resource value: 0x7f070089
 			public const int text_common_lesson_classroom = 2131165321;
@@ -2834,6 +2819,9 @@ namespace SescTool
 			
 			// aapt resource value: 0x7f070097
 			public const int text_input_password_toggle = 2131165335;
+			
+			// aapt resource value: 0x7f070081
+			public const int text_number_of_lesson = 2131165313;
 			
 			// aapt resource value: 0x7f0700b7
 			public const int text_splited_classroom_first = 2131165367;
@@ -2871,6 +2859,9 @@ namespace SescTool
 			// aapt resource value: 0x7f0700bb
 			public const int toolbar = 2131165371;
 			
+			// aapt resource value: 0x7f0700bc
+			public const int toolbar_loading_panel = 2131165372;
+			
 			// aapt resource value: 0x7f070029
 			public const int top = 2131165225;
 			
@@ -2898,8 +2889,8 @@ namespace SescTool
 			// aapt resource value: 0x7f07000e
 			public const int view_offset_helper = 2131165198;
 			
-			// aapt resource value: 0x7f0700bc
-			public const int visible = 2131165372;
+			// aapt resource value: 0x7f0700bd
+			public const int visible = 2131165373;
 			
 			// aapt resource value: 0x7f070027
 			public const int withText = 2131165223;
@@ -3045,136 +3036,142 @@ namespace SescTool
 			public const int class_picker_fragment = 2130903067;
 			
 			// aapt resource value: 0x7f03001c
-			public const int class_picker_layout = 2130903068;
+			public const int class_schedule_card = 2130903068;
 			
 			// aapt resource value: 0x7f03001d
-			public const int class_schedule_card = 2130903069;
+			public const int class_schedule_empty_lesson = 2130903069;
 			
 			// aapt resource value: 0x7f03001e
-			public const int class_schedule_empty_lesson = 2130903070;
+			public const int class_timetable_fragment = 2130903070;
 			
 			// aapt resource value: 0x7f03001f
-			public const int class_timetable_fragment = 2130903071;
+			public const int classroom_lesson = 2130903071;
 			
 			// aapt resource value: 0x7f030020
-			public const int classPicker = 2130903072;
+			public const int classroom_schedule_card = 2130903072;
 			
 			// aapt resource value: 0x7f030021
-			public const int common_lesson_list_item = 2130903073;
+			public const int classroom_schedule_fragment = 2130903073;
 			
 			// aapt resource value: 0x7f030022
-			public const int design_bottom_navigation_item = 2130903074;
+			public const int common_lesson_list_item = 2130903074;
 			
 			// aapt resource value: 0x7f030023
-			public const int design_bottom_sheet_dialog = 2130903075;
+			public const int design_bottom_navigation_item = 2130903075;
 			
 			// aapt resource value: 0x7f030024
-			public const int design_layout_snackbar = 2130903076;
+			public const int design_bottom_sheet_dialog = 2130903076;
 			
 			// aapt resource value: 0x7f030025
-			public const int design_layout_snackbar_include = 2130903077;
+			public const int design_layout_snackbar = 2130903077;
 			
 			// aapt resource value: 0x7f030026
-			public const int design_layout_tab_icon = 2130903078;
+			public const int design_layout_snackbar_include = 2130903078;
 			
 			// aapt resource value: 0x7f030027
-			public const int design_layout_tab_text = 2130903079;
+			public const int design_layout_tab_icon = 2130903079;
 			
 			// aapt resource value: 0x7f030028
-			public const int design_menu_item_action_area = 2130903080;
+			public const int design_layout_tab_text = 2130903080;
 			
 			// aapt resource value: 0x7f030029
-			public const int design_navigation_item = 2130903081;
+			public const int design_menu_item_action_area = 2130903081;
 			
 			// aapt resource value: 0x7f03002a
-			public const int design_navigation_item_header = 2130903082;
+			public const int design_navigation_item = 2130903082;
 			
 			// aapt resource value: 0x7f03002b
-			public const int design_navigation_item_separator = 2130903083;
+			public const int design_navigation_item_header = 2130903083;
 			
 			// aapt resource value: 0x7f03002c
-			public const int design_navigation_item_subheader = 2130903084;
+			public const int design_navigation_item_separator = 2130903084;
 			
 			// aapt resource value: 0x7f03002d
-			public const int design_navigation_menu = 2130903085;
+			public const int design_navigation_item_subheader = 2130903085;
 			
 			// aapt resource value: 0x7f03002e
-			public const int design_navigation_menu_item = 2130903086;
+			public const int design_navigation_menu = 2130903086;
 			
 			// aapt resource value: 0x7f03002f
-			public const int design_text_input_password_icon = 2130903087;
+			public const int design_navigation_menu_item = 2130903087;
 			
 			// aapt resource value: 0x7f030030
-			public const int main = 2130903088;
+			public const int design_text_input_password_icon = 2130903088;
 			
 			// aapt resource value: 0x7f030031
-			public const int navigation_header = 2130903089;
+			public const int main = 2130903089;
 			
 			// aapt resource value: 0x7f030032
-			public const int notification_action = 2130903090;
+			public const int navigation_header = 2130903090;
 			
 			// aapt resource value: 0x7f030033
-			public const int notification_action_tombstone = 2130903091;
+			public const int notification_action = 2130903091;
 			
 			// aapt resource value: 0x7f030034
-			public const int notification_media_action = 2130903092;
+			public const int notification_action_tombstone = 2130903092;
 			
 			// aapt resource value: 0x7f030035
-			public const int notification_media_cancel_action = 2130903093;
+			public const int notification_media_action = 2130903093;
 			
 			// aapt resource value: 0x7f030036
-			public const int notification_template_big_media = 2130903094;
+			public const int notification_media_cancel_action = 2130903094;
 			
 			// aapt resource value: 0x7f030037
-			public const int notification_template_big_media_custom = 2130903095;
+			public const int notification_template_big_media = 2130903095;
 			
 			// aapt resource value: 0x7f030038
-			public const int notification_template_big_media_narrow = 2130903096;
+			public const int notification_template_big_media_custom = 2130903096;
 			
 			// aapt resource value: 0x7f030039
-			public const int notification_template_big_media_narrow_custom = 2130903097;
+			public const int notification_template_big_media_narrow = 2130903097;
 			
 			// aapt resource value: 0x7f03003a
-			public const int notification_template_custom_big = 2130903098;
+			public const int notification_template_big_media_narrow_custom = 2130903098;
 			
 			// aapt resource value: 0x7f03003b
-			public const int notification_template_icon_group = 2130903099;
+			public const int notification_template_custom_big = 2130903099;
 			
 			// aapt resource value: 0x7f03003c
-			public const int notification_template_lines_media = 2130903100;
+			public const int notification_template_icon_group = 2130903100;
 			
 			// aapt resource value: 0x7f03003d
-			public const int notification_template_media = 2130903101;
+			public const int notification_template_lines_media = 2130903101;
 			
 			// aapt resource value: 0x7f03003e
-			public const int notification_template_media_custom = 2130903102;
+			public const int notification_template_media = 2130903102;
 			
 			// aapt resource value: 0x7f03003f
-			public const int notification_template_part_chronometer = 2130903103;
+			public const int notification_template_media_custom = 2130903103;
 			
 			// aapt resource value: 0x7f030040
-			public const int notification_template_part_time = 2130903104;
+			public const int notification_template_part_chronometer = 2130903104;
 			
 			// aapt resource value: 0x7f030041
-			public const int select_dialog_item_material = 2130903105;
+			public const int notification_template_part_time = 2130903105;
 			
 			// aapt resource value: 0x7f030042
-			public const int select_dialog_multichoice_material = 2130903106;
+			public const int select_dialog_item_material = 2130903106;
 			
 			// aapt resource value: 0x7f030043
-			public const int select_dialog_singlechoice_material = 2130903107;
+			public const int select_dialog_multichoice_material = 2130903107;
 			
 			// aapt resource value: 0x7f030044
-			public const int splited_lesson_list_item = 2130903108;
+			public const int select_dialog_singlechoice_material = 2130903108;
 			
 			// aapt resource value: 0x7f030045
-			public const int support_simple_spinner_dropdown_item = 2130903109;
+			public const int spinner_item = 2130903109;
 			
 			// aapt resource value: 0x7f030046
-			public const int teacher_schedule_fragment = 2130903110;
+			public const int splited_lesson_list_item = 2130903110;
 			
 			// aapt resource value: 0x7f030047
-			public const int toolbar = 2130903111;
+			public const int support_simple_spinner_dropdown_item = 2130903111;
+			
+			// aapt resource value: 0x7f030048
+			public const int teacher_schedule_fragment = 2130903112;
+			
+			// aapt resource value: 0x7f030049
+			public const int toolbar = 2130903113;
 			
 			static Layout()
 			{
@@ -3193,7 +3190,10 @@ namespace SescTool
 			public const int class_schedule_menu = 2131623936;
 			
 			// aapt resource value: 0x7f0e0001
-			public const int navigation_menu = 2131623937;
+			public const int classroom_schedule_menu = 2131623937;
+			
+			// aapt resource value: 0x7f0e0002
+			public const int navigation_menu = 2131623938;
 			
 			static Menu()
 			{
@@ -3369,6 +3369,9 @@ namespace SescTool
 			
 			// aapt resource value: 0x7f0a0013
 			public const int search_menu_title = 2131361811;
+			
+			// aapt resource value: 0x7f0a0037
+			public const int show_free_classroooms = 2131361847;
 			
 			// aapt resource value: 0x7f0a0014
 			public const int status_bar_notification_info_overflow = 2131361812;
@@ -3881,8 +3884,8 @@ namespace SescTool
 			// aapt resource value: 0x7f08017f
 			public const int MyTheme_Base = 2131231103;
 			
-			// aapt resource value: 0x7f080181
-			public const int MyTheme_Splash = 2131231105;
+			// aapt resource value: 0x7f080182
+			public const int MyTheme_Splash = 2131231106;
 			
 			// aapt resource value: 0x7f080022
 			public const int Platform_AppCompat = 2131230754;
@@ -4541,8 +4544,11 @@ namespace SescTool
 			// aapt resource value: 0x7f08017d
 			public const int Widget_Design_TextInputLayout = 2131231101;
 			
+			// aapt resource value: 0x7f080181
+			public const int spinnerItemStyle = 2131231105;
+			
 			// aapt resource value: 0x7f080180
-			public const int datepickerdialog = 2131231104;
+			public const int spinnerStyle = 2131231104;
 			
 			static Style()
 			{

@@ -111,7 +111,7 @@ namespace SescTool.Services
 
         public Task<string> GetClassroomsList()
         {
-            var requestUrl = MakeRequestUrl(ClassListFunction);
+            var requestUrl = MakeRequestUrl(ClassroomsListFunction);
             if (!_classroomListClient.IsValueCreated) _classroomListClient.Value.DownloadStringCompleted += ClassroomListOnDownloadCompleted; 
             var response = _classroomListClient.Value.DownloadStringTaskAsync(requestUrl);
             return response;

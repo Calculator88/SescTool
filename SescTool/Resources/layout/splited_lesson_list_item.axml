@@ -28,8 +28,8 @@
       android:gravity="center"
       android:id="@+id/text_splited_lesson_first"/>
     <TextView
-      android:paddingLeft="5dip"
-      android:paddingRight="5dip"
+      android:paddingLeft="3dip"
+      android:paddingRight="3dip"
       android:paddingTop="3dip"
       android:paddingBottom="3dp"
       android:background="?attr/colorPrimary"
@@ -65,7 +65,7 @@
       android:gravity="center"
       android:background="?attr/colorPrimary"
       android:textColor="?attr/titleTextColor"
-      android:layout_marginLeft="10dp"
+      android:layout_marginLeft="5dp"
       android:layout_height="match_parent"
       android:layout_width="wrap_content"
       android:id="@+id/text_splited_classroom_second"/>

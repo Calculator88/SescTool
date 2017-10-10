@@ -4,7 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SescTool.Framework;
-using SescTool.Model;
+using SescTool.Model.ClassSchedule;
 
 namespace SescTool.Services
 {
@@ -12,6 +12,8 @@ namespace SescTool.Services
     {
         public event ClassListLoadedEventHandler ClassListLoaded;
         public event WeekScheduleForClassLoadedEventHandler WeekScheduleForClassLoaded;
+        public event ClassroomsListLoadedEventHandler ClassroomListLoaded;
+        public event DailyScheduleForClassroomEventHandler DailyScheduleForClassroomLoaded;
         
         private readonly TimetableDownloader _downloader;
         public TimetableProvider()
@@ -71,12 +73,55 @@ namespace SescTool.Services
 
         private void DownloaderOnGetDailyScheduleForClassroomsCompleted(object sender, DownloadStringCompletedEventArgs downloadStringCompletedEventArgs)
         {
-              //TODO
+            if (downloadStringCompletedEventArgs.Error != null || downloadStringCompletedEventArgs.Cancelled)
+            {
+                DailyScheduleForClassroomLoaded?.Invoke(sender,
+                    new DailyScheduleForClassroomsEventArgs(null, null,
+                        downloadStringCompletedEventArgs.Error, downloadStringCompletedEventArgs.Cancelled,
+                        downloadStringCompletedEventArgs.UserState));
+                return;
+            }
+            if (String.IsNullOrEmpty(downloadStringCompletedEventArgs.Result) ||
+                downloadStringCompletedEventArgs.Result == "Class does not exist" ||
+                downloadStringCompletedEventArgs.Result == "Timetable does not exist" ||
+                downloadStringCompletedEventArgs.Result == "This day has no lessons")
+            {
+                DailyScheduleForClassroomLoaded?.Invoke(sender,
+                    new DailyScheduleForClassroomsEventArgs(null, downloadStringCompletedEventArgs.Result,
+                        new NoTimetableException(), false, downloadStringCompletedEventArgs.UserState));
+                return;
+            }
+            var result = JsonConvert.DeserializeObject<Dictionary<string, Model.ClassroomSchedule.ScheduleDay>>(downloadStringCompletedEventArgs.Result);
+            DailyScheduleForClassroomLoaded?.Invoke(sender,
+                new DailyScheduleForClassroomsEventArgs(result, downloadStringCompletedEventArgs.Result, null, false,
+                    downloadStringCompletedEventArgs.UserState));
         }
 
         private void DownloaderOnGetClassroomsListCompleted(object sender, DownloadStringCompletedEventArgs downloadStringCompletedEventArgs)
         {
-            //TODO
+            if (downloadStringCompletedEventArgs.Error != null || downloadStringCompletedEventArgs.Cancelled)
+            {
+                ClassroomListLoaded?.Invoke(sender,
+                    new ClassroomsListLoadedEventArgs(null, null,
+                        downloadStringCompletedEventArgs.Error, downloadStringCompletedEventArgs.Cancelled,
+                        downloadStringCompletedEventArgs.UserState));
+                return;
+            }
+            if (String.IsNullOrEmpty(downloadStringCompletedEventArgs.Result) ||
+                downloadStringCompletedEventArgs.Result == "Bad Request" ||
+                downloadStringCompletedEventArgs.Result == "Timetable does not exist" ||
+                downloadStringCompletedEventArgs.Result == "This day has no lessons")
+            {
+                var error = new NoClassesException();
+                ClassroomListLoaded?.Invoke(sender,
+                    new ClassroomsListLoadedEventArgs(null, downloadStringCompletedEventArgs.Result, error,
+                        false, downloadStringCompletedEventArgs.UserState));
+                return;
+            }
+            var res = downloadStringCompletedEventArgs.Result.Split(' ', '\n');
+            ClassroomListLoaded?.Invoke(sender,
+                new ClassroomsListLoadedEventArgs(res, downloadStringCompletedEventArgs.Result, null, false,
+                    downloadStringCompletedEventArgs.UserState));
         }
 
         private void DownloaderOnGetChangesCompleted(object sender, DownloadStringCompletedEventArgs downloadStringCompletedEventArgs)
@@ -116,22 +161,28 @@ namespace SescTool.Services
            return _downloader.GetClassesList();
         }
 
-        public async Task<string[]> GetTeachers()
+        public Task<string> GetClassrooms()
         {
-            var respString = await _downloader.GetClassesList();
-            return respString.Split('\n');
+            return _downloader.GetClassroomsList();
         }
 
-        public async Task<string[]> GetTeachersFullName()
+        public Task<string> GetDailyScheduleForClassroom(int day)
         {
-            var respString = await _downloader.GetClassesList();
-            return respString.Split('\n');
+            return _downloader.GetDailyScheduleForClassrooms(day);
         }
 
-        public async Task<string[]> GetClassrooms()
+        public Task<string> GetDailyScheduleForClassroom(string day)
         {
-            var respString = await _downloader.GetClassesList();
-            return respString.Split('\n');
+            switch (day.ToLower())
+            {
+                case "понедельник": return GetDailyScheduleForClassroom(1);
+                case "вторник": return GetDailyScheduleForClassroom(2);
+                case "среда": return GetDailyScheduleForClassroom(3);
+                case "четверг": return GetDailyScheduleForClassroom(4);
+                case "пятница": return GetDailyScheduleForClassroom(5);
+                case "суббота": return GetDailyScheduleForClassroom(6);
+                default: return GetDailyScheduleForClassroom(0);
+            }
         }
 
         public Task<string> GetWeekScheduleForClass(string @class)
@@ -147,6 +198,16 @@ namespace SescTool.Services
         public void CancelGettingWeekScheduleForClass()
         {
             _downloader.GetWeekScheduleForClassCancel();
+        }
+
+        public void CancelGettingClassrooms()
+        {
+            _downloader.GetClassroomsListCancel();
+        }
+
+        public void CancelGeetingDailyClassroomSchedule()
+        {
+            _downloader.GetDailyScheduleForClassroomsCancel();
         }
     }
 }

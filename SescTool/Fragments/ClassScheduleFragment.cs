@@ -1,12 +1,15 @@
 ﻿using System.ComponentModel;
+using Android.Content.Res;
 using Android.Graphics;
 using Android.OS;
+using Android.Support.Design.Widget;
 using Android.Support.V4.App;
+using Android.Support.V4.Content;
 using Android.Support.V4.Widget;
 using Android.Support.V7.Widget;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
-using Java.Lang;
 using SescTool.Framework;
 using SescTool.Helpers;
 using SescTool.ViewModels;
@@ -14,25 +17,50 @@ using Exception = System.Exception;
 
 namespace SescTool.Fragments
 {
-    public class ClassScheduleFragment : Fragment, SwipeRefreshLayout.IOnRefreshListener, ClassPickerDialogFragment.IOnClassChooseListener, IRunnable
+    public class ClassScheduleFragment : Fragment, ClassPickerDialogFragment.IOnClassChooseListener
     {
+        #region Private fields
+
         private RecyclerView _recycler;
         private SwipeRefreshLayout _swipeRefresh;
         private IMenuItem _selectClassMenuItem;
+        private MainActivity.ILoadingToolbarShower _loader;
         private ClassScheduleViewModel _viewModel;
-        private LinearLayout _behaviorLine;
-        private ImageView _behaviorImageView;
-        private ProgressBar _behaviorProgressBar;
-        private TextView _behaviorTextView;
-        private bool _errorLoadingClassListOccured;
-        private bool _errorLoadingScheduleOccured;
+
+        #endregion
+
+        #region Fragment lifecycle
 
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+            _loader = Activity as MainActivity.ILoadingToolbarShower;
             _viewModel = ServiceLocator.GetService<ClassScheduleViewModel>();
             _viewModel.PropertyChanged += ViewModelOnPropertyChanged;
             _viewModel.ExceptionOccured += ViewModelExceptionOccured;
+        }
+
+        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+        {
+            var v = inflater.Inflate(Resource.Layout.class_timetable_fragment, container, false);
+            _recycler = v.FindViewById<RecyclerView>(Resource.Id.classes_timetable_recycler);
+            _recycler.SetLayoutManager(new LinearLayoutManager(Context));
+            _swipeRefresh = v.FindViewById<SwipeRefreshLayout>(Resource.Id.swipeRefreshLayout);
+            _swipeRefresh.Refresh += (sender, args) => { _viewModel.RequestSchedule(_viewModel.CurrentClass, true); };
+            _swipeRefresh.SetColorSchemeColors(ContextCompat.GetColor(Context, Resource.Color.accent));
+            HasOptionsMenu = true;
+
+            if (!_viewModel.IsClassListLoading && (_viewModel.Classes == null || _viewModel.Classes.Count == 0))
+                _viewModel.RequestClasses();
+            return v;
+        }
+
+        public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
+        {
+            base.OnCreateOptionsMenu(menu, inflater);
+            inflater.Inflate(Resource.Menu.class_schedule_menu, menu);
+            _selectClassMenuItem = menu.FindItem(Resource.Id.choose_class_menu_item);
+            UpdateLinks();
         }
 
         public override void OnDestroy()
@@ -42,56 +70,26 @@ namespace SescTool.Fragments
             base.OnDestroy();
         }
 
-        private void ViewModelExceptionOccured(Exception exception, ClassScheduleViewModel.Method method)
+        public override bool OnOptionsItemSelected(IMenuItem item)
         {
-            if (method == ClassScheduleViewModel.Method.LoadClass) _errorLoadingClassListOccured = true;
-            else _errorLoadingScheduleOccured = true;
-        }
-        private void OnIsScheduleLoadingChanged()
-        {
-            if (_viewModel.IsWeekClassSchduleLoading)
+            switch (item.ItemId)
             {
-                _behaviorLine.Visibility = ViewStates.Visible;
-                _behaviorProgressBar.Visibility = ViewStates.Visible;
-                _behaviorImageView.Visibility = ViewStates.Gone;
-                _behaviorTextView.SetText(Resource.String.loading);
-                _behaviorLine.SetBackgroundColor(new Color(0xd6, 0xcc, 0x15, 0xFF));
-                return;
+                case Resource.Id.choose_class_menu_item:
+                    new ClassPickerDialogFragment(_viewModel.Classes, this, _viewModel.CurrentClass).Show(FragmentManager, "classpicker");
+                    break;
             }
-            if (!_viewModel.IsWeekClassSchduleLoading && !_errorLoadingScheduleOccured)
-            {
-                _behaviorLine.Visibility = ViewStates.Visible;
-                _behaviorProgressBar.Visibility = ViewStates.Gone;
-                _behaviorImageView.Visibility = ViewStates.Visible;
-                _behaviorImageView.SetImageResource(Resource.Drawable.ok_sign);
-                _behaviorTextView.SetText(Resource.String.loaded_fine);
-                _behaviorLine.SetBackgroundColor(new Color(0x15, 0xd6, 0x55, 0xFF));
-                _behaviorLine.Animate().SetStartDelay(1000).WithEndAction(this).Start();
-                return;
-            }
-            _behaviorLine.Visibility = ViewStates.Visible;
-            _behaviorProgressBar.Visibility = ViewStates.Gone;
-            _behaviorImageView.Visibility = ViewStates.Visible;
-            _behaviorImageView.SetImageResource(Resource.Drawable.warning_sign);
-            _behaviorTextView.SetText(Resource.String.error_occured);
-            _behaviorLine.SetBackgroundColor(new Color(0xd6, 0x15, 0x15, 0xFF));
-            _behaviorLine.Animate().SetStartDelay(1000).WithEndAction(this).Start();
-            _errorLoadingScheduleOccured = false;
+            return base.OnOptionsItemSelected(item);
         }
 
-        private void OnIsLoadingClassListChanged()
+        #endregion
+
+        #region Event handlers
+
+        private void ViewModelExceptionOccured(Exception exception, ClassScheduleViewModel.Method method)
         {
-            if (_viewModel.IsClassListLoading)
-            {
-                _selectClassMenuItem?.SetActionView(new ProgressBar(Context) {Indeterminate = true});
-                _selectClassMenuItem?.SetEnabled(false);
-            }
-            else
-            {
-                _selectClassMenuItem?.SetActionView(null);
-                OnClassesChanged();
-            }
+            Toast.MakeText(Context, "An exception occured", ToastLength.Long).Show();
         }
+
         private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
             switch (propertyChangedEventArgs.PropertyName)
@@ -108,14 +106,51 @@ namespace SescTool.Fragments
                 case nameof(_viewModel.IsClassListLoading):
                     OnIsLoadingClassListChanged();
                     break;
+                case nameof(_viewModel.IsRefreshing):
+                    OnRefreshChanged();
+                    break;
             }
         }
 
+        #endregion
+
+        #region ViewModel listeners
+
+        private void OnIsScheduleLoadingChanged()
+        {
+            if (_viewModel.IsWeekClassSchduleLoading)
+            {
+                _loader?.ShowLoading();
+                return;
+            }
+            _loader?.StopLoading();
+        }
+        private void OnIsLoadingClassListChanged()
+        {
+            if (_viewModel.IsClassListLoading)
+            {
+                _selectClassMenuItem?.SetActionView(new ProgressBar(Context)
+                {
+                    Indeterminate = true,
+                    IndeterminateTintList =
+                        ColorStateList.ValueOf(new Color(ContextCompat.GetColor(Context, Resource.Color.primary_text))),
+                    LayoutParameters = new AppBarLayout.LayoutParams
+                    (
+                        (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, 30, Context.Resources.DisplayMetrics),
+                        (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, 30, Context.Resources.DisplayMetrics)),
+                });
+                _selectClassMenuItem?.SetEnabled(false);
+            }
+            else
+            {
+                _selectClassMenuItem?.SetActionView(null);
+                OnClassesChanged();
+            }
+        }
         private void OnClassesChanged()
         {
             _selectClassMenuItem?.SetEnabled(_viewModel.Classes != null && _viewModel.Classes.Count != 0);
         }
-
         private void OnCurrentClassChanged()
         {
             if (!_viewModel.ScheduleExistsForClass(_viewModel.CurrentClass))
@@ -127,65 +162,30 @@ namespace SescTool.Fragments
             _recycler?.SetAdapter(new ClassScheduleAdapter(Context, _viewModel.Schedules[_viewModel.CurrentClass]));
             _selectClassMenuItem?.SetTitle(_viewModel.CurrentClass);
         }
-        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+        private void OnRefreshChanged()
         {
-            var v = inflater.Inflate(Resource.Layout.class_timetable_fragment, container, false);
-            _recycler = v.FindViewById<RecyclerView>(Resource.Id.classes_timetable_recycler);
-            _recycler.SetLayoutManager(new LinearLayoutManager(Context));
-            _swipeRefresh = v.FindViewById<SwipeRefreshLayout>(Resource.Id.swipeRefreshLayout);
-            _behaviorProgressBar = v.FindViewById<ProgressBar>(Resource.Id.behavior_progressBar);
-            _behaviorTextView = v.FindViewById<TextView>(Resource.Id.behavior_text);
-            _behaviorImageView = v.FindViewById<ImageView>(Resource.Id.behavior_image);
-            _behaviorLine = v.FindViewById<LinearLayout>(Resource.Id.classSchedule_behavior_line);
-            _swipeRefresh.SetOnRefreshListener(this);
-            HasOptionsMenu = true;
-
-            if (_viewModel.Classes == null || _viewModel.Classes.Count == 0)
-                _viewModel.RequestClasses();
-            return v;
+            _swipeRefresh.Refreshing = _viewModel.IsRefreshing;
         }
-
-        public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
-        {
-            base.OnCreateOptionsMenu(menu, inflater);
-            inflater.Inflate(Resource.Menu.class_schedule_menu, menu);
-            _selectClassMenuItem = menu.FindItem(Resource.Id.choose_class_menu_item);
-            UpdateLinks();
-        }
-
         private void UpdateLinks()
         {
             OnClassesChanged();
             OnCurrentClassChanged();
             OnIsLoadingClassListChanged();
+            OnRefreshChanged();
         }
 
-        public override bool OnOptionsItemSelected(IMenuItem item)
-        {
-            switch (item.ItemId)
-            {
-                case Resource.Id.choose_class_menu_item:
-                    new ClassPickerDialogFragment(_viewModel.Classes, this, _viewModel.CurrentClass).Show(FragmentManager, "classpicker");
-                    break;
-            }
-            return base.OnOptionsItemSelected(item);
-        }
+        #endregion
 
-        public void OnRefresh()
-        {
-            _swipeRefresh.Refreshing = false;
-        }
+        #region Public methods
 
         public void OnClassChoose(string @class)
         {
             if (@class == _viewModel.CurrentClass) return;
-            _viewModel.RequestSchedule(@class);
+            _viewModel.RequestSchedule(@class, false);
         }
 
-        public void Run()
-        {
-            _behaviorLine.Visibility = ViewStates.Gone;
-        }
+        #endregion
+
     }
 
 }

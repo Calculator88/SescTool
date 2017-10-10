@@ -1,6 +1,6 @@
 ﻿<manifest
   xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.sesc.timetable4"
+  package="com.sesc.timetable2"
   android:versionCode="1"
   android:versionName="1.1"
   android:installLocation="auto">
@@ -25,8 +25,8 @@
       android:name="sesctool.MainActivity"
       android:label="@string/nav_timetable"
       android:launchMode="singleTop"
-      android:theme="@style/MyTheme"
-      android:configChanges="orientation|screenSize">
+      android:theme="@style/MyTheme">
+      <!--android:configChanges="orientation|screenSize">-->
     </activity>
   </application>
 </manifest>

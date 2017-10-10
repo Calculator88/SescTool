@@ -14,9 +14,23 @@
   <string name="nav_settings">Настройки</string>
   <string name="choose_class">Выбeрите класс</string>
   <string name="nav_timetable">Расписание</string>
+  <string name="show_free_classroooms">Cвободные аудитории</string>
+  <string-array name="subtitles">
+    <item>Для класса</item>
+    <item>Для учителя</item>
+    <item>Для аудитории</item>
+  </string-array>
   <string-array name="nav_toolbar_titles">
     <item>Расписание для класса</item>
     <item>Расписание для учителя</item>
     <item>Расписание для аудитории</item>
+  </string-array>
+  <string-array name="classroom_days">
+    <item>Понедельник</item>
+    <item>Вторник</item>
+    <item>Среда</item>
+    <item>Четверг</item>
+    <item>Пятница</item>
+    <item>Суббота</item>
   </string-array>
 </resources>
