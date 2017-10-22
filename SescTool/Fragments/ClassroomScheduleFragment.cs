@@ -179,7 +179,7 @@ namespace SescTool.Fragments
                 _recycler?.SetAdapter(null);
                 return;
             }
-            _recycler?.SetAdapter(new ClassroomScheduleAdepter(_viewModel.Schedules[_viewModel.CurrentDay], Context, this, this));
+            _recycler?.SetAdapter(new ClassroomScheduleAdepter(_viewModel.Schedules[_viewModel.CurrentDay], this, this));
         }
 
         #endregion

@@ -15,6 +15,8 @@
   <string name="choose_class">Выбeрите класс</string>
   <string name="nav_timetable">Расписание</string>
   <string name="show_free_classroooms">Cвободные аудитории</string>
+  <string name="lesson_str">урок</string>
+  <string name="teacher_str">Учитель</string>
   <string-array name="subtitles">
     <item>Для класса</item>
     <item>Для учителя</item>

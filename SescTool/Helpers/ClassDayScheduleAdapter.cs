@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Android.App;
-using Android.Content;
 using Android.Graphics.Drawables;
 using Android.Support.V7.Widget;
 using Android.Views;
@@ -15,11 +13,9 @@ namespace SescTool.Helpers
     internal class ClassDayScheduleAdapter : RecyclerView.Adapter
     {
         private readonly List<Lesson> _lessons;
-        private readonly Context _context;
-        public ClassDayScheduleAdapter(Context context, List<Lesson> lessons)
+        public ClassDayScheduleAdapter(List<Lesson> lessons)
         {
             _lessons = lessons;
-            _context = context;
         }
 
         public override int GetItemViewType(int position)
@@ -87,7 +83,7 @@ namespace SescTool.Helpers
             }
         }
 
-        internal class CommonLessonViewHolder : RecyclerView.ViewHolder , View.IOnClickListener
+        internal class CommonLessonViewHolder : RecyclerView.ViewHolder
         {
             private readonly TextView _textViewLessonNum;
             private readonly TextView _textViewSubject;
@@ -109,18 +105,19 @@ namespace SescTool.Helpers
                 _textViewLessonNum = view.FindViewById<TextView>(Resource.Id.text_common_lesson_number);
                 _textViewSubject = view.FindViewById<TextView>(Resource.Id.text_common_lesson_subject);
                 _textViewClassroom = view.FindViewById<TextView>(Resource.Id.text_common_lesson_classroom);
-                view.FindViewById<LinearLayout>(Resource.Id.common_lesson_panel).SetOnClickListener(this);
+                view.FindViewById<LinearLayout>(Resource.Id.common_lesson_panel).Click += OnClick;
             }
 
-            public void OnClick(View v)
+            private void OnClick(object sender, EventArgs eventArgs)
             {
+                var view = (View) sender;
                 if (!String.IsNullOrEmpty(_lesson.LessonsByGroups[0].Teacher))
-                    Toast.MakeText(Application.Context, "Учитель: " + _lesson.LessonsByGroups[0].Teacher,
-                        ToastLength.Long).Show();
+                    Toast.MakeText(view.Context, $"{view.Context.GetString(Resource.String.teacher_str)}: {_lesson.LessonsByGroups[0].Teacher}",
+                        ToastLength.Short).Show();
             }
         }
 
-        internal class SplitedLessonViewHolder : RecyclerView.ViewHolder  , View.IOnClickListener
+        internal class SplitedLessonViewHolder : RecyclerView.ViewHolder
         {
             private readonly TextView _textViewLessonNum;
             private readonly TextView _textViewSubject1;
@@ -143,13 +140,6 @@ namespace SescTool.Helpers
 
             public void BindLesson(Lesson lesson)
             {
-                _secondLes.Background = null;
-                _secondLes.Clickable = false;
-                _secondLes.SetOnClickListener(null);
-                _firstLes.Background = null;
-                _firstLes.Clickable = false;
-                _firstLes.SetOnClickListener(null);
-
                 _lesson = lesson;
                 if (lesson.LessonsByGroups.Count == 1)
                 {
@@ -160,7 +150,7 @@ namespace SescTool.Helpers
                         _textViewClassroom1.Text = lesson.LessonsByGroups[0].Classroom;
                         _firstLes.Background = GetRippleBackground();
                         _firstLes.Clickable = true;
-                        _firstLes.SetOnClickListener(this);
+                        _firstLes.Click += OnClick;
                     }
                     else
                     {
@@ -168,7 +158,7 @@ namespace SescTool.Helpers
                         _textViewClassroom2.Text = lesson.LessonsByGroups[0].Classroom;
                         _secondLes.Background = GetRippleBackground();
                         _secondLes.Clickable = true;
-                        _secondLes.SetOnClickListener(this);
+                        _secondLes.Click += OnClick;
                     }
                 }
                 else
@@ -178,18 +168,39 @@ namespace SescTool.Helpers
                     _textViewClassroom1.Text = lesson.LessonsByGroups[0].Classroom;
                     _firstLes.Background = GetRippleBackground();
                     _firstLes.Clickable = true;
-                    _firstLes.SetOnClickListener(this);
+                    _firstLes.Click += OnClick;
                     _textViewSubject2.Text = lesson.LessonsByGroups[1].Subject;
                     _textViewClassroom2.Text = lesson.LessonsByGroups[1].Classroom;
                     _secondLes.Background = GetRippleBackground();
                     _secondLes.Clickable = true;
-                    _secondLes.SetOnClickListener(this);
+                    _secondLes.Click += OnClick;
                 }
                 if (String.IsNullOrEmpty(_textViewClassroom1.Text))
                     _textViewClassroom1.Visibility = ViewStates.Gone;
                 if (String.IsNullOrEmpty(_textViewClassroom2.Text))
                     _textViewClassroom2.Visibility = ViewStates.Gone;
             }
+
+            private void OnClick(object sender, EventArgs eventArgs)
+            {
+                var view = (View) sender;
+                switch (view.Id)
+                {
+                    case Resource.Id.splited_lesson_first_panel when !String.IsNullOrEmpty(_lesson.LessonsByGroups[0].Teacher):
+                        Toast.MakeText(view.Context, $"{view.Context.GetString(Resource.String.teacher_str)}: {_lesson.LessonsByGroups[0].Teacher}",
+                            ToastLength.Short).Show();
+                        break;
+                    case Resource.Id.splited_lesson_second_panel when _lesson.LessonsByGroups.Count == 1 && !String.IsNullOrEmpty(_lesson.LessonsByGroups[0].Teacher):
+                        Toast.MakeText(view.Context, $"{view.Context.GetString(Resource.String.teacher_str)}: {_lesson.LessonsByGroups[0].Teacher}",
+                            ToastLength.Short).Show();
+                        break;
+                    case Resource.Id.splited_lesson_second_panel when !String.IsNullOrEmpty(_lesson.LessonsByGroups[1].Teacher):
+                        Toast.MakeText(view.Context, $"{view.Context.GetString(Resource.String.teacher_str)}: {_lesson.LessonsByGroups[1].Teacher}",
+                            ToastLength.Short).Show();
+                        break;
+                }
+            }
+
             public SplitedLessonViewHolder(View view) : base(view)
             {
                 _textViewLessonNum = view.FindViewById<TextView>(Resource.Id.text_splited_lesson_number);
@@ -199,25 +210,6 @@ namespace SescTool.Helpers
                 _textViewClassroom2 = view.FindViewById<TextView>(Resource.Id.text_splited_classroom_second);
                 _firstLes = view.FindViewById<FlowLayout>(Resource.Id.splited_lesson_first_panel);
                 _secondLes = view.FindViewById<FlowLayout>(Resource.Id.splited_lesson_second_panel);
-            }
-
-            public void OnClick(View v)
-            {
-                switch (v.Id)
-                {
-                    case Resource.Id.splited_lesson_first_panel when !String.IsNullOrEmpty(_lesson.LessonsByGroups[0].Teacher):
-                        Toast.MakeText(Application.Context, "Учитель: " + _lesson.LessonsByGroups[0].Teacher,
-                            ToastLength.Long).Show();
-                        break;
-                    case Resource.Id.splited_lesson_second_panel when _lesson.LessonsByGroups.Count == 1 && !String.IsNullOrEmpty(_lesson.LessonsByGroups[0].Teacher):
-                        Toast.MakeText(Application.Context, "Учитель: " + _lesson.LessonsByGroups[0].Teacher,
-                            ToastLength.Long).Show();
-                        break;
-                    case Resource.Id.splited_lesson_second_panel when !String.IsNullOrEmpty(_lesson.LessonsByGroups[1].Teacher):
-                        Toast.MakeText(Application.Context, "Учитель: " + _lesson.LessonsByGroups[1].Teacher,
-                            ToastLength.Long).Show();
-                        break;
-                }
             }
         }
     }

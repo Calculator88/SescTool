@@ -18,6 +18,7 @@ namespace SescTool
             ServiceLocator.RegisterService(new ClassroomScheduleFragment());
             ServiceLocator.RegisterService(new ClassroomDailyScheduleViewModel());
             ServiceLocator.RegisterService(new ClassScheduleViewModel());
+            ServiceLocator.RegisterService(new Cacher());
             StartActivity(new Intent(this, typeof(MainActivity)));
             Finish();
         }

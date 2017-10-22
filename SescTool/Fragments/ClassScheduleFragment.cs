@@ -159,7 +159,7 @@ namespace SescTool.Fragments
                 _selectClassMenuItem?.SetTitle(Resource.String.choose_class);
                 return;
             }
-            _recycler?.SetAdapter(new ClassScheduleAdapter(Context, _viewModel.Schedules[_viewModel.CurrentClass]));
+            _recycler?.SetAdapter(new ClassScheduleAdapter(_viewModel.Schedules[_viewModel.CurrentClass]));
             _selectClassMenuItem?.SetTitle(_viewModel.CurrentClass);
         }
         private void OnRefreshChanged()

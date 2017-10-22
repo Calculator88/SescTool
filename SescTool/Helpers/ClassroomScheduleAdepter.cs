@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using Android.Animation;
-using Android.Content;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
@@ -12,13 +11,11 @@ namespace SescTool.Helpers
     public class ClassroomScheduleAdepter : RecyclerView.Adapter
     {
         public ScheduleDay Data { get; }
-        private readonly Context _context;
         private readonly IToItemScroller _scroller;
         private readonly IFreeClassrooomsShower _shower;
-        public ClassroomScheduleAdepter(ScheduleDay day, Context context, IToItemScroller scroller, IFreeClassrooomsShower shower)
+        public ClassroomScheduleAdepter(ScheduleDay day, IToItemScroller scroller, IFreeClassrooomsShower shower)
         {
             Data = day;
-            _context = context;
             _scroller = scroller;
             _shower = shower;
             _shower = shower;
@@ -30,7 +27,7 @@ namespace SescTool.Helpers
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
-            var view = LayoutInflater.From(_context).Inflate(Resource.Layout.classroom_schedule_card, parent, false);
+            var view = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.classroom_schedule_card, parent, false);
             view.Measure(View.MeasureSpec.MakeMeasureSpec(parent.Width, MeasureSpecMode.Exactly), ViewGroup.LayoutParams.WrapContent);
             var width = view.MeasuredWidth - ((RecyclerView.LayoutParams)view.LayoutParameters).LeftMargin
                         - ((RecyclerView.LayoutParams)view.LayoutParameters).RightMargin;
@@ -43,7 +40,7 @@ namespace SescTool.Helpers
                 ((RecyclerView.LayoutParams)view.LayoutParameters).LeftMargin = margins2;
                 ((RecyclerView.LayoutParams)view.LayoutParameters).RightMargin = margins2;
             }
-            return new ClassroomScheduleViewHolder(view, _context, _scroller, _shower);
+            return new ClassroomScheduleViewHolder(view, _scroller, _shower);
         }
 
         public override int ItemCount => Data.Timetable.Count;
@@ -53,17 +50,15 @@ namespace SescTool.Helpers
             private int _lessonNum;
             private readonly TextView _textViewLesson;
             private readonly RecyclerView _listViewLessons;
-            private readonly Context _context;
             private readonly IFreeClassrooomsShower _shower;
 
             public void BindScheduleLesson(ScheduleLesson schedule)
             {
-                _textViewLesson.Text = schedule.LessonNumber + " урок";
+                _textViewLesson.Text = $"{schedule.LessonNumber} {ItemView.Context.GetString(Resource.String.lesson_str)}";
                 _lessonNum = schedule.LessonNumber - 1;
                 _listViewLessons.SetAdapter(new ClassroomLessonAdapter(
                     schedule.Classrooms
-                        .Where(arg => !String.IsNullOrEmpty(arg.Class) || !String.IsNullOrEmpty(arg.Subject)).ToList(),
-                    _context));
+                        .Where(arg => !String.IsNullOrEmpty(arg.Class) || !String.IsNullOrEmpty(arg.Subject)).ToList()));
             }
             private ValueAnimator SlideAnimator(int start, int end)
             {
@@ -78,16 +73,15 @@ namespace SescTool.Helpers
                     };
                 return animator;
             }
-            public ClassroomScheduleViewHolder(View itemView, Context context, IToItemScroller scroller, IFreeClassrooomsShower shower) : base(itemView)
+            public ClassroomScheduleViewHolder(View itemView, IToItemScroller scroller, IFreeClassrooomsShower shower) : base(itemView)
             {
-                _context = context;
                 _textViewLesson = itemView.FindViewById<TextView>(Resource.Id.text_number_of_lesson);
                 _listViewLessons = itemView.FindViewById<RecyclerView>(Resource.Id.classroom_schedule_list_view);
                 itemView.FindViewById<Button>(Resource.Id.free_classroooms_button).Click += FreeClassroomsOnClick;
                 _shower = shower;
-                var manager = new LinearLayoutManager(context);
+                var manager = new LinearLayoutManager(itemView.Context);
                 _listViewLessons.SetLayoutManager(manager);
-                _listViewLessons.AddItemDecoration(new DividerItemDecoration(context, manager.Orientation));
+                _listViewLessons.AddItemDecoration(new DividerItemDecoration(itemView.Context, manager.Orientation));
                 _listViewLessons.Visibility = ViewStates.Gone;
 
                 if (itemView.Clickable) return;

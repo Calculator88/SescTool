@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SescTool.Framework
+﻿namespace SescTool.Framework
 {
     public delegate void ClassListLoadedEventHandler(object sender, ClassesListLoadedEventArgs args);
 

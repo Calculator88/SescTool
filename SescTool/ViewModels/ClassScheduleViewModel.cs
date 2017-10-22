@@ -87,14 +87,16 @@ namespace SescTool.ViewModels
             return _schedules != null && _schedules.ContainsKey(@class);
         }
 
-        public void RequestClasses()
+        public void RequestClasses(bool refresh = false)
         {
+            if (refresh && Classes != null && Classes.Count == 0) return;
+
             if (IsClassListLoading) _provider.CancelGettingClasses();
             IsClassListLoading = true;
             _provider.GetClasses();
         }
 
-        public void RequestSchedule(string @class, bool refresh)
+        public void RequestSchedule(string @class, bool refresh = false)
         {
             if (IsWeekClassSchduleLoading) _provider.CancelGettingWeekScheduleForClass();
             if (refresh)

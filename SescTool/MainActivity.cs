@@ -6,7 +6,6 @@ using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
 using SescTool.Fragments;
-using SescTool.Framework;
 
 namespace SescTool
 {

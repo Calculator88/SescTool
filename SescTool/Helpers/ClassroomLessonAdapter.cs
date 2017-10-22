@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Android.Content;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
@@ -10,11 +9,9 @@ namespace SescTool.Helpers
     public class ClassroomLessonAdapter : RecyclerView.Adapter
     {
         public List<Lesson> Data { get; }
-        private readonly Context _context;
-        public ClassroomLessonAdapter(List<Lesson> lesson, Context context)
+        public ClassroomLessonAdapter(List<Lesson> lesson)
         {
             Data = lesson;
-            _context = context;
         }
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
@@ -23,7 +20,7 @@ namespace SescTool.Helpers
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
-            var view = LayoutInflater.From(_context).Inflate(Resource.Layout.classroom_lesson, parent, false);
+            var view = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.classroom_lesson, parent, false);
             return new ClassroomLessonViewHolder(view);
         }
 

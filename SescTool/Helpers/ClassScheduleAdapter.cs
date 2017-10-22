@@ -1,5 +1,4 @@
-﻿using Android.Content;
-using Android.Support.V4.Content;
+﻿using Android.Support.V4.Content;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
@@ -10,12 +9,9 @@ namespace SescTool.Helpers
     internal class ClassScheduleAdapter : RecyclerView.Adapter
     {
         public ScheduleWeek Data { get; }
-
-        private readonly Context _context;
-        public ClassScheduleAdapter(Context context, ScheduleWeek schedule)
+        public ClassScheduleAdapter(ScheduleWeek schedule)
         {
             Data = schedule;
-            _context = context;
         }
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
@@ -57,14 +53,13 @@ namespace SescTool.Helpers
                     ((CardView)ItemView).SetContentPadding(0, 0, 0, 0);
                 }
                 _textViewDay.Text = schedule.Day;
-                _listViewLessons.SetAdapter(new ClassDayScheduleAdapter(ItemView.Context, schedule.Lessons));
+                _listViewLessons.SetAdapter(new ClassDayScheduleAdapter(schedule.Lessons));
             }
             public ClassScheduleViewHolder(View view) : base(view)
             {
                 _textViewDay = view.FindViewById<TextView>(Resource.Id.text_day_of_week);
                 _listViewLessons = view.FindViewById<RecyclerView>(Resource.Id.class_schedule_list_view);
                 var manager = new LinearLayoutManager(ItemView.Context);
-                manager.MeasurementCacheEnabled = false;
                 _listViewLessons.SetLayoutManager(manager);
                 _listViewLessons.AddItemDecoration(new DividerItemDecoration(ItemView.Context, manager.Orientation));
             }

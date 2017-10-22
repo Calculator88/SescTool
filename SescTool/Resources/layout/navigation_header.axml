@@ -1,16 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/view_container"
+<FrameLayout 
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:id="@+id/view_container"
+  android:layout_width="match_parent"
+  android:layout_height="170dip"
+  android:gravity="bottom"
+  android:orientation="vertical"
+  android:theme="@style/ThemeOverlay.AppCompat.Dark">
+  <ImageView
+    android:id="@+id/img_header_bg"
     android:layout_width="match_parent"
-    android:layout_height="170dip"
-    android:gravity="bottom"
-    android:orientation="vertical"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
-    <ImageView
-        android:id="@+id/img_header_bg"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        android:src="@drawable/header" />
-</LinearLayout>
+    android:layout_height="match_parent"
+    android:scaleType="fitXY"
+    android:src="@drawable/header" />
+  <LinearLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:gravity="bottom|right"
+    android:layout_margin="20dp">
+    <Button
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:id="@+id/header_select_class"
+      android:text="---"
+      android:textSize="16sp"
+      style="@style/Widget.AppCompat.Button.Borderless"
+      android:background="@android:color/transparent"/>
+  </LinearLayout>
+</FrameLayout>
